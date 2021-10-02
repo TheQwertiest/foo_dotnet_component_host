@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{D44C2E87-896A-4F82-AF57-8FFB76D93287}</ProjectGuid>
+    <Keyword>NetCoreCProj</Keyword>
+    <RootNamespace>foodotnetcomponenthost</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <TargetFramework>net5.0</TargetFramework>
+    <ProjectName>foo_dotnet_component_host</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CLRSupport>NetCore</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir)\..\props\submodules\submodules.props" />
+    <Import Project="$(SubmodulesDirectory)fb2k_utils\props\env\BuildEnvCommon.props" />
+    <Import Project="$(SubmodulesDirectory)fb2k_utils\props\env\BuildEnvCpp.props" />
+    <Import Project="$(SubmodulesDirectory)fb2k_utils\props\submodules\foobar2000_sdk.props" />
+    <Import Project="$(SubmodulesDirectory)fb2k_utils\props\submodules\pfc.props" />
+    <Import Project="$(SubmodulesDirectory)fb2k_utils\props\submodules\range.props" />
+    <Import Project="$(SubmodulesDirectory)fb2k_utils\props\submodules\fmt.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ole32.lib;User32.lib;shlwapi.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\dotnet_sdk_iface\dotnet_sdk_iface.csproj">
+      <Project>{c611a3b9-4014-4b15-a56b-45fe3db9cb93}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\submodules\foobar2000\SDK\foobar2000_SDK.vcxproj">
+      <Project>{e8091321-d79d-4575-86ef-064ea1a4a20d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\submodules\pfc\pfc.vcxproj">
+      <Project>{ebfffb4e-261d-44d3-b89c-957b31a0bf9c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="component_defines.h" />
+    <ClInclude Include="convert\to_net.h" />
+    <ClInclude Include="convert\to_native.h" />
+    <ClInclude Include="fb2k\main_menu.h" />
+    <ClInclude Include="fb2k\play_callback.h" />
+    <ClInclude Include="fb2k\component_registration.h" />
+    <ClInclude Include="fb2k\preferences_pages.h" />
+    <ClInclude Include="host\fb2k_services.h" />
+    <ClInclude Include="host\fb2k_controls.h" />
+    <ClInclude Include="host\fb2k_utils.h" />
+    <ClInclude Include="host\host.h" />
+    <ClInclude Include="loader\assembly_loader.h" />
+    <ClInclude Include="loader\component_loader.h" />
+    <ClInclude Include="net_objects\fb_config_var.h" />
+    <ClInclude Include="net_objects\fb_console.h" />
+    <ClInclude Include="net_objects\fb_file_info.h" />
+    <ClInclude Include="net_objects\fb_main_menu.h" />
+    <ClInclude Include="net_objects\fb_metadb_handle.h" />
+    <ClInclude Include="net_objects\fb_play_control.h" />
+    <ClInclude Include="net_objects\fb_preferences_page_callback.h" />
+    <ClInclude Include="net_objects\impl\enumerable_impl.h" />
+    <ClInclude Include="net_objects\fb_play_callback.h" />
+    <ClInclude Include="net_objects\fb_title_format.h" />
+    <ClInclude Include="net_utils\exception_generator.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="utils\fb2k_paths.h" />
+    <ClInclude Include="utils\menu_helpers.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="convert\to_net.cpp" />
+    <ClCompile Include="convert\to_native.cpp" />
+    <ClCompile Include="fb2k\component_registration.cpp" />
+    <ClCompile Include="fb2k\main.cpp" />
+    <ClCompile Include="fb2k\init_quit.cpp" />
+    <ClCompile Include="fb2k\main_menu.cpp" />
+    <ClCompile Include="fb2k\play_callback.cpp" />
+    <ClCompile Include="fb2k\preferences_pages.cpp" />
+    <ClCompile Include="host\fb2k_services.cpp" />
+    <ClCompile Include="host\fb2k_controls.cpp" />
+    <ClCompile Include="host\fb2k_utils.cpp" />
+    <ClCompile Include="host\host.cpp" />
+    <ClCompile Include="loader\assembly_loader.cpp" />
+    <ClCompile Include="loader\component_loader.cpp" />
+    <ClCompile Include="component_main.cpp" />
+    <ClCompile Include="net_objects\fb_config_var.cpp" />
+    <ClCompile Include="net_objects\fb_console.cpp" />
+    <ClCompile Include="net_objects\fb_file_info.cpp" />
+    <ClCompile Include="net_objects\fb_main_menu.cpp" />
+    <ClCompile Include="net_objects\fb_metadb_handle.cpp" />
+    <ClCompile Include="net_objects\fb_play_callback.cpp" />
+    <ClCompile Include="net_objects\fb_play_control.cpp" />
+    <ClCompile Include="net_objects\fb_preferences_page_callback.cpp" />
+    <ClCompile Include="net_objects\fb_title_format.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="utils\fb2k_paths.cpp" />
+    <ClCompile Include="utils\menu_helpers.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".clang-format" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\convert">
+      <UniqueIdentifier>{cbfc46a7-99a5-43d9-b414-62b137af537e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\fb2k">
+      <UniqueIdentifier>{1837df39-0b14-4668-a651-cc5d334af251}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\loader">
+      <UniqueIdentifier>{c891dde2-ed24-4f57-a20c-eef0623a95ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\host">
+      <UniqueIdentifier>{63cfbdd9-befd-4478-923c-d77241d0bc5a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="convert\to_std.h">
+      <Filter>Source Files\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="component_defines.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fb2k\console.h">
+      <Filter>Source Files\fb2k</Filter>
+    </ClInclude>
+    <ClInclude Include="loader\assembly_loader.h">
+      <Filter>Source Files\loader</Filter>
+    </ClInclude>
+    <ClInclude Include="loader\component_loader.h">
+      <Filter>Source Files\loader</Filter>
+    </ClInclude>
+    <ClInclude Include="host\host.h">
+      <Filter>Source Files\host</Filter>
+    </ClInclude>
+    <ClInclude Include="host\fb2k_controls.h">
+      <Filter>Source Files\host</Filter>
+    </ClInclude>
+    <ClInclude Include="host\fb2k_services.h">
+      <Filter>Source Files\host</Filter>
+    </ClInclude>
+    <ClInclude Include="fb2k\metadb_handle.h">
+      <Filter>Source Files\fb2k</Filter>
+    </ClInclude>
+    <ClInclude Include="convert\to_managed.h">
+      <Filter>Source Files\convert</Filter>
+    </ClInclude>
+    <ClInclude Include="fb2k\file_info.h">
+      <Filter>Source Files\fb2k</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="component_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="convert\to_std.cpp">
+      <Filter>Source Files\convert</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2k\console.cpp">
+      <Filter>Source Files\fb2k</Filter>
+    </ClCompile>
+    <ClCompile Include="loader\component_loader.cpp">
+      <Filter>Source Files\loader</Filter>
+    </ClCompile>
+    <ClCompile Include="loader\assembly_info.cpp">
+      <Filter>Source Files\loader</Filter>
+    </ClCompile>
+    <ClCompile Include="loader\assembly_loader.cpp">
+      <Filter>Source Files\loader</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2k\main.cpp">
+      <Filter>Source Files\fb2k</Filter>
+    </ClCompile>
+    <ClCompile Include="host\host.cpp">
+      <Filter>Source Files\host</Filter>
+    </ClCompile>
+    <ClCompile Include="host\fb2k_controls.cpp">
+      <Filter>Source Files\host</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2k\init_quit.cpp">
+      <Filter>Source Files\fb2k</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2k\play_callback.cpp">
+      <Filter>Source Files\fb2k</Filter>
+    </ClCompile>
+    <ClCompile Include="host\fb2k_services.cpp">
+      <Filter>Source Files\host</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2k\metadb_handle.cpp">
+      <Filter>Source Files\fb2k</Filter>
+    </ClCompile>
+    <ClCompile Include="convert\to_managed.cpp">
+      <Filter>Source Files\convert</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2k\file_info.cpp">
+      <Filter>Source Files\fb2k</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".clang-format">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="fb2k\play_callback.h">
+      <Filter>Source Files\fb2k</Filter>
+    </None>
+  </ItemGroup>
+</Project>

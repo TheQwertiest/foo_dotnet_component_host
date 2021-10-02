@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="host\fb2k_controls.cpp">
+      <Filter>host</Filter>
+    </ClCompile>
+    <ClCompile Include="host\fb2k_services.cpp">
+      <Filter>host</Filter>
+    </ClCompile>
+    <ClCompile Include="host\host.cpp">
+      <Filter>host</Filter>
+    </ClCompile>
+    <ClCompile Include="loader\assembly_loader.cpp">
+      <Filter>loader</Filter>
+    </ClCompile>
+    <ClCompile Include="loader\component_loader.cpp">
+      <Filter>loader</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2k\init_quit.cpp">
+      <Filter>fb2k</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2k\main.cpp">
+      <Filter>fb2k</Filter>
+    </ClCompile>
+    <ClCompile Include="convert\to_net.cpp">
+      <Filter>convert</Filter>
+    </ClCompile>
+    <ClCompile Include="convert\to_native.cpp">
+      <Filter>convert</Filter>
+    </ClCompile>
+    <ClCompile Include="net_objects\fb_metadb_handle.cpp">
+      <Filter>net_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="net_objects\fb_console.cpp">
+      <Filter>net_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="net_objects\fb_file_info.cpp">
+      <Filter>net_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="component_main.cpp" />
+    <ClCompile Include="fb2k\play_callback.cpp">
+      <Filter>fb2k</Filter>
+    </ClCompile>
+    <ClCompile Include="net_objects\fb_play_callback.cpp">
+      <Filter>net_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2k\component_registration.cpp">
+      <Filter>fb2k</Filter>
+    </ClCompile>
+    <ClCompile Include="net_objects\fb_play_control.cpp">
+      <Filter>net_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="net_objects\fb_title_format.cpp">
+      <Filter>net_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2k\preferences_pages.cpp">
+      <Filter>fb2k</Filter>
+    </ClCompile>
+    <ClCompile Include="net_objects\fb_preferences_page_callback.cpp">
+      <Filter>net_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="net_objects\fb_config_var.cpp">
+      <Filter>net_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\menu_helpers.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="fb2k\main_menu.cpp">
+      <Filter>fb2k</Filter>
+    </ClCompile>
+    <ClCompile Include="net_objects\fb_main_menu.cpp">
+      <Filter>net_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="host\fb2k_utils.cpp">
+      <Filter>host</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\fb2k_paths.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="component_defines.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="host\fb2k_controls.h">
+      <Filter>host</Filter>
+    </ClInclude>
+    <ClInclude Include="host\fb2k_services.h">
+      <Filter>host</Filter>
+    </ClInclude>
+    <ClInclude Include="host\host.h">
+      <Filter>host</Filter>
+    </ClInclude>
+    <ClInclude Include="loader\assembly_loader.h">
+      <Filter>loader</Filter>
+    </ClInclude>
+    <ClInclude Include="loader\component_loader.h">
+      <Filter>loader</Filter>
+    </ClInclude>
+    <ClInclude Include="convert\to_net.h">
+      <Filter>convert</Filter>
+    </ClInclude>
+    <ClInclude Include="convert\to_native.h">
+      <Filter>convert</Filter>
+    </ClInclude>
+    <ClInclude Include="net_objects\fb_file_info.h">
+      <Filter>net_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="net_objects\fb_metadb_handle.h">
+      <Filter>net_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="net_objects\fb_console.h">
+      <Filter>net_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="net_objects\impl\enumerable_impl.h">
+      <Filter>net_objects\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="fb2k\play_callback.h">
+      <Filter>fb2k</Filter>
+    </ClInclude>
+    <ClInclude Include="net_objects\fb_play_callback.h">
+      <Filter>net_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="fb2k\component_registration.h">
+      <Filter>fb2k</Filter>
+    </ClInclude>
+    <ClInclude Include="net_objects\fb_play_control.h">
+      <Filter>net_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="net_objects\fb_title_format.h">
+      <Filter>net_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="fb2k\preferences_pages.h">
+      <Filter>fb2k</Filter>
+    </ClInclude>
+    <ClInclude Include="net_objects\fb_preferences_page_callback.h">
+      <Filter>net_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="net_objects\fb_config_var.h">
+      <Filter>net_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\menu_helpers.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="net_utils\exception_generator.h">
+      <Filter>net_utils</Filter>
+    </ClInclude>
+    <ClInclude Include="fb2k\main_menu.h">
+      <Filter>fb2k</Filter>
+    </ClInclude>
+    <ClInclude Include="net_objects\fb_main_menu.h">
+      <Filter>net_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="host\fb2k_utils.h">
+      <Filter>host</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\fb2k_paths.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".clang-format" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="fb2k">
+      <UniqueIdentifier>{24b7fd3f-c550-4cb6-b2e9-fc0cc95254f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="convert">
+      <UniqueIdentifier>{29ba1ff0-a622-4dc8-b711-c53a7995ba79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="host">
+      <UniqueIdentifier>{ce89be5b-44e5-4231-8258-cfc31acb6cb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="loader">
+      <UniqueIdentifier>{8ca0a601-322b-4613-b02f-ef3d86167621}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="net_objects">
+      <UniqueIdentifier>{61a5d51f-a0ea-4b26-b508-5d717faf7eca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="net_objects\impl">
+      <UniqueIdentifier>{b3c0981e-e7df-4208-8cee-02f9637b6821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{1322a5b6-0e21-45fc-8a7f-8f2d3a0dd812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="net_utils">
+      <UniqueIdentifier>{f3e5b605-0f6d-42ba-90f4-af9a5b1b1b4f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
