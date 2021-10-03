@@ -7,7 +7,7 @@ using namespace Qwr::ComponentBase;
 namespace Qwr::DotnetHost
 {
 
- private
+private
 ref class NetFbMainMenuCommand sealed : public IMainMenuCommand
 {
 public:
@@ -40,7 +40,7 @@ public:
     }
 
 public:
-    Guid^ GetGuid();
+    Guid ^ GetGuid();
     String ^ GetName();
     String ^ GetDescription();
     Action ^ GetAction();
@@ -62,7 +62,7 @@ private
 ref class NetFbMainMenuCommandSection sealed : public IMainMenuCommandSection
 {
 public:
-    NetFbMainMenuCommandSection( Guid guid, Guid parentGuid, Nullable<uint16_t> sortPriority );
+    NetFbMainMenuCommandSection( Guid parentGuid, Nullable<uint16_t> sortPriority );
 
     virtual IMainMenuCommand ^ AddCommand( Guid guid, String ^ name, String ^ description, Action ^ action );
 
@@ -78,7 +78,7 @@ public:
     NetFbMainMenuGroup( Guid guid, Guid parentGuid, String ^ name, Nullable<uint16_t> sortPriority, bool isPopup );
 
     virtual IMainMenuGroup ^ AddGroup( Guid guid, String ^ name, Nullable<uint16_t> sortPriority, bool isPopup );
-    virtual IMainMenuCommandSection ^ AddCommandSection( Guid guid, Nullable<uint16_t> sortPriority );
+    virtual IMainMenuCommandSection ^ AddCommandSection( Nullable<uint16_t> sortPriority );
 
 private:
     Guid guid_;
@@ -86,6 +86,5 @@ private:
     List<NetFbMainMenuGroup ^> ^ childGroups_;
     List<NetFbMainMenuCommandSection ^> ^ childCommands_;
 };
-
 
 } // namespace Qwr::DotnetHost

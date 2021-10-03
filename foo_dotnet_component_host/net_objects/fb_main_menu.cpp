@@ -2,10 +2,9 @@
 
 #include "fb_main_menu.h"
 
-#include <host/host.h>
 #include <convert/to_native.h>
-
 #include <fb2k/main_menu.h>
+#include <host/host.h>
 
 namespace Qwr::DotnetHost
 {
@@ -88,10 +87,10 @@ Action ^ NetFbMainMenuCommand::GetAction()
     return action_;
 }
 
-NetFbMainMenuCommandSection::NetFbMainMenuCommandSection( Guid guid, Guid parentGuid, Nullable<uint16_t> sortPriority ) 
-: childCommands_( gcnew List<NetFbMainMenuCommand ^>() )
+NetFbMainMenuCommandSection::NetFbMainMenuCommandSection( Guid parentGuid, Nullable<uint16_t> sortPriority )
+    : childCommands_( gcnew List<NetFbMainMenuCommand ^>() )
 {
-    RegisterMainMenuCommandSection( Convert::ToNative::ToValue( guid ), Convert::ToNative::ToValue( parentGuid ), sortPriority.HasValue ? sortPriority.Value << 16 : mainmenu_commands::sort_priority_dontcare, childCommands_ );
+    RegisterMainMenuCommandSection( Convert::ToNative::ToValue( parentGuid ), sortPriority.HasValue ? sortPriority.Value << 16 : mainmenu_commands::sort_priority_dontcare, childCommands_ );
 }
 
 IMainMenuCommand ^ NetFbMainMenuCommandSection::AddCommand( Guid guid, String ^ name, String ^ description, Action ^ action )
@@ -106,8 +105,8 @@ IMainMenuCommand ^ NetFbMainMenuCommandSection::AddCommand( Guid guid, String ^ 
     return command;
 }
 
- NetFbMainMenuGroup::NetFbMainMenuGroup( Guid guid )
-    : guid_(guid)
+NetFbMainMenuGroup::NetFbMainMenuGroup( Guid guid )
+    : guid_( guid )
     , childGroups_( gcnew List<NetFbMainMenuGroup ^>() )
     , childCommands_( gcnew List<NetFbMainMenuCommandSection ^>() )
 {
@@ -137,14 +136,14 @@ IMainMenuGroup ^ NetFbMainMenuGroup::AddGroup( Guid guid, String ^ name, Nullabl
     return command;
 }
 
-IMainMenuCommandSection ^ NetFbMainMenuGroup::AddCommandSection( Guid guid, Nullable<uint16_t> sortPriority )
+IMainMenuCommandSection ^ NetFbMainMenuGroup::AddCommandSection( Nullable<uint16_t> sortPriority )
 {
     if ( Host::GetInstance()->IsInitialized() )
     {
         throw gcnew Exception( "Static services can't be initialized after the component start" );
     }
 
-    auto command = gcnew NetFbMainMenuCommandSection( guid, guid_, sortPriority );
+    auto command = gcnew NetFbMainMenuCommandSection( guid_, sortPriority );
     childCommands_->Add( command );
     return command;
 }

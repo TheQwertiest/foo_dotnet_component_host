@@ -27,12 +27,13 @@ std::string Fb2kPath()
 
 std::string ProfilePath()
 {
-    pfc::string8_fast tmp;
-    // `get_profile_path` returns strings like "file://c:\documents_and_settings\username\blah\foobar2000",
-    // so we need to convert them with `g_get_display_path`
-    filesystem::g_get_display_path( core_api::get_profile_path(), tmp );
+    std::string profile_path = core_api::get_profile_path();
+    if ( profile_path._Starts_with( "file://" ) )
+    {
+        profile_path = profile_path.substr( sizeof( "file://" ) - 1 );
+    }
 
-    return fs::u8path( tmp.c_str() ).lexically_normal().u8string();
+    return fs::u8path( profile_path ).lexically_normal().u8string();
 }
 
 #pragma managed

@@ -43,7 +43,7 @@ public:
     ~PreferencesPageInstance();
 
 public:
-    void Init( HWND parent, Type ^ preferencePageType );
+    void Initialize( HWND parent, Type ^ preferencePageType );
 
     t_uint32 get_state() override;
     HWND get_wnd() override;
@@ -56,7 +56,7 @@ protected:
     gcroot<IPreferencesPage ^> pageImpl_;
 };
 
-}
+} // namespace
 
 namespace
 {
@@ -79,7 +79,7 @@ void PreferencesPage::SetPreferencesPageType( Type ^ preferencePageType )
 preferences_page_instance::ptr PreferencesPage::instantiate( HWND parent, preferences_page_callback::ptr callback )
 {
     auto pInstance = fb2k::service_new<PreferencesPageInstance>( callback );
-    pInstance->Init( parent, preferencePageType_ );
+    pInstance->Initialize( parent, preferencePageType_ );
     return pInstance;
 }
 
@@ -125,7 +125,7 @@ PreferencesPageInstance::~PreferencesPageInstance()
     delete pageImpl_;
 }
 
-void PreferencesPageInstance::Init( HWND parent, Type ^ preferencePageType )
+void PreferencesPageInstance::Initialize( HWND parent, Type ^ preferencePageType )
 {
     try
     {
@@ -163,7 +163,7 @@ void PreferencesPageInstance::reset()
     pageImpl_->Reset();
 }
 
-}
+} // namespace
 
 namespace
 {
@@ -172,7 +172,8 @@ std::vector<std::unique_ptr<service_factory_single_t<PreferencesPage>>> g_regist
 
 }
 
-namespace Qwr::DotnetHost {
+namespace Qwr::DotnetHost
+{
 
 void RegisterPreferencesPageImpl( PreferencesPageInfo ^ preferencesPageInfo, Type ^ preferencePageType )
 {

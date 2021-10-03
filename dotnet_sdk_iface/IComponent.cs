@@ -49,6 +49,12 @@ namespace Qwr.ComponentBase
         PrefPage_Output,
         PrefPage_Advanced,
         PrefPage_Components,
+        MainMenuGroups_File,
+        MainMenuGroups_Edit,
+        MainMenuGroups_View,
+        MainMenuGroups_Playback,
+        MainMenuGroups_Library,
+        MainMenuGroups_Help,
     }
 
     public interface IUtils
@@ -60,7 +66,6 @@ namespace Qwr.ComponentBase
         string Fb2kPath();
         [RequiresInitialization]
         string Fb2kVersion();
-        [RequiresInitialization]
         string ProfilePath();
         [RequiresInitialization]
         bool IsFb2kMinimized();
@@ -91,8 +96,7 @@ namespace Qwr.ComponentBase
     {
         IMainMenuGroup AddGroup(Guid guid, string name, ushort? sortPriority = null,
                                 bool isPopup = true);
-        IMainMenuCommandSection AddCommandSection(Guid guid,
-                                                  ushort? sortPriority = null);
+        IMainMenuCommandSection AddCommandSection(ushort? sortPriority = null);
     }
 
     /// <summary>
@@ -222,7 +226,7 @@ namespace Qwr.ComponentBase
     {
         IConsole Console();
         void ExecuteMainMenuCommand(string command);
-        void ExecuteContextMenuCommand(string command, List<IMetadbHandle>? metadbHandles);
+        void ExecuteContextMenuCommand(string command, List<IMetadbHandle>? metadbHandles = null);
         IPlaybackControls PlaybackControls();
         ITitleFormat TitleFormat(string expression);
     }
@@ -237,12 +241,13 @@ namespace Qwr.ComponentBase
         public Guid Guid;
         public Guid ParentGuid;
         public string Name;
-        public string HelpUrl;
+        public string? HelpUrl;
     }
 
     [Flags]
     public enum PreferencesPageState : UInt32
     {
+        HasNoChanges = 0,
         HasChanged = 1,
         IsResettable = 8,
         NeedsFb2kRestart = 2,

@@ -1,18 +1,19 @@
 #include <stdafx.h>
 
 #include "host.h"
-#include <net_objects/fb_console.h>
+
 #include <host/fb2k_controls.h>
-#include <host/fb2k_utils.h>
 #include <host/fb2k_services.h>
+#include <host/fb2k_utils.h>
 #include <loader/component_loader.h>
+#include <net_objects/fb_console.h>
 
 // TODO: replace WinForms with System.Drawing.Common
 
 namespace Qwr::DotnetHost
 {
 
- Host::Host()
+Host::Host()
 {
 }
 
@@ -41,13 +42,13 @@ void Host::Initialize( String ^ modulePath )
         pfc::hires_timer timer;
         timer.start();
 
-        components_ = componentLoader->LoadComponentsInDir( System::IO::Path::GetDirectoryName( modulePath ) + "\\plugins", "foo_" );
+        components_ = componentLoader->LoadComponentsInDir( System::IO::Path::GetDirectoryName( modulePath ) + "\\plugins", "dotnet_" );
 
         for each ( auto component in components_ )
         {
             try
             {
-                //TODO: 
+                //TODO:
                 component->Initialize( fb2kStaticServices_, fb2kUtils_ );
             }
             catch ( Exception ^ e )
@@ -60,15 +61,14 @@ void Host::Initialize( String ^ modulePath )
         }
 
         // TODO: replace with delayed log
-        FB2K_console_formatter() << 
-            (DNET_NAME_WITH_VERSION " Components initialized in " + std::to_string(static_cast<uint32_t>( timer.query() * 1000 ) ) + "ms").c_str();
+        FB2K_console_formatter() << ( DNET_NAME_WITH_VERSION " Components initialized in " + std::to_string( static_cast<uint32_t>( timer.query() * 1000 ) ) + "ms" ).c_str();
     }
     catch ( Exception ^ e )
     {
         // TODO: replace with delayed popup
         NetFbConsole::LogStatic( e->Message );
     }
-    
+
     isInitialized_ = true;
 }
 
@@ -101,5 +101,4 @@ bool Host::IsInitialized()
     return isInitialized_;
 }
 
-}
-
+} // namespace Qwr::DotnetHost

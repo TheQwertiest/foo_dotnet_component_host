@@ -1,9 +1,10 @@
 #include <stdafx.h>
+
 #include "fb2k_utils.h"
 
 #include <convert/to_net.h>
-#include <utils/fb2k_paths.h>
 #include <host/host.h>
+#include <utils/fb2k_paths.h>
 
 using namespace System::Reflection;
 using namespace System::IO;
@@ -11,7 +12,7 @@ using namespace System::IO;
 namespace Qwr::DotnetHost
 {
 
- Fb2kUtils::Fb2kUtils()
+Fb2kUtils::Fb2kUtils()
 {
 }
 
@@ -45,31 +46,43 @@ Guid Fb2kUtils::Fb2kGuid( Fb2kGuidId id )
     switch ( id )
     {
     case Fb2kGuidId::PrefPage_Tagging:
-        return Convert::ToNet::ToValue(preferences_page::guid_tagging);
+        return Convert::ToNet::ToValue( preferences_page::guid_tagging );
     case Fb2kGuidId::PrefPage_Root:
         return Convert::ToNet::ToValue( preferences_page::guid_root );
     case Fb2kGuidId::PrefPage_Tools:
-        return Convert::ToNet::ToValue(preferences_page::guid_tools);
+        return Convert::ToNet::ToValue( preferences_page::guid_tools );
     case Fb2kGuidId::PrefPage_Display:
-        return Convert::ToNet::ToValue(preferences_page::guid_display);
+        return Convert::ToNet::ToValue( preferences_page::guid_display );
     case Fb2kGuidId::PrefPage_Playback:
-        return Convert::ToNet::ToValue(preferences_page::guid_playback);
+        return Convert::ToNet::ToValue( preferences_page::guid_playback );
     case Fb2kGuidId::PrefPage_Visualizations:
-        return Convert::ToNet::ToValue(preferences_page::guid_visualisations);
+        return Convert::ToNet::ToValue( preferences_page::guid_visualisations );
     case Fb2kGuidId::PrefPage_Input:
-        return Convert::ToNet::ToValue(preferences_page::guid_input);
+        return Convert::ToNet::ToValue( preferences_page::guid_input );
     case Fb2kGuidId::PrefPage_Core:
-        return Convert::ToNet::ToValue(preferences_page::guid_core);
+        return Convert::ToNet::ToValue( preferences_page::guid_core );
     case Fb2kGuidId::PrefPage_TagWriting:
-        return Convert::ToNet::ToValue(preferences_page::guid_tag_writing);
+        return Convert::ToNet::ToValue( preferences_page::guid_tag_writing );
     case Fb2kGuidId::PrefPage_MediaLibrary:
-        return Convert::ToNet::ToValue(preferences_page::guid_media_library);
+        return Convert::ToNet::ToValue( preferences_page::guid_media_library );
     case Fb2kGuidId::PrefPage_Output:
-        return Convert::ToNet::ToValue(preferences_page::guid_output);
+        return Convert::ToNet::ToValue( preferences_page::guid_output );
     case Fb2kGuidId::PrefPage_Advanced:
-        return Convert::ToNet::ToValue(preferences_page::guid_advanced);
+        return Convert::ToNet::ToValue( preferences_page::guid_advanced );
     case Fb2kGuidId::PrefPage_Components:
-        return Convert::ToNet::ToValue(preferences_page::guid_components);
+        return Convert::ToNet::ToValue( preferences_page::guid_components );
+    case Fb2kGuidId::MainMenuGroups_File:
+        return Convert::ToNet::ToValue( mainmenu_groups::file );
+    case Fb2kGuidId::MainMenuGroups_Edit:
+        return Convert::ToNet::ToValue( mainmenu_groups::edit );
+    case Fb2kGuidId::MainMenuGroups_View:
+        return Convert::ToNet::ToValue( mainmenu_groups::view );
+    case Fb2kGuidId::MainMenuGroups_Playback:
+        return Convert::ToNet::ToValue( mainmenu_groups::playback );
+    case Fb2kGuidId::MainMenuGroups_Library:
+        return Convert::ToNet::ToValue( mainmenu_groups::library );
+    case Fb2kGuidId::MainMenuGroups_Help:
+        return Convert::ToNet::ToValue( mainmenu_groups::help );
     default:
         throw gcnew ArgumentOutOfRangeException();
     }
@@ -101,16 +114,11 @@ String ^ Fb2kUtils::Fb2kVersion()
     const auto pChar = core_version_info_v2::get()->get_version_as_text();
     assert( pChar );
 
-   return Convert::ToNet::ToValue(std::string_view(pChar));
+    return Convert::ToNet::ToValue( std::string_view( pChar ) );
 }
 
 String ^ Fb2kUtils::ProfilePath()
 {
-    if ( !Host::GetInstance()->IsInitialized() )
-    {
-        throw gcnew Exception( "This method can be called only after component initialization" );
-    }
-
     return Convert::ToNet::ToValue( Qwr::DotnetHost::ProfilePath() ) + Path::DirectorySeparatorChar;
 }
 
@@ -121,7 +129,7 @@ bool Fb2kUtils::IsFb2kMinimized()
         throw gcnew Exception( "This method can be called only after component initialization" );
     }
 
-    return ( *pUiControl_ ).get_ptr()->is_visible();
+    return !( *pUiControl_ ).get_ptr()->is_visible();
 }
 
 } // namespace Qwr::DotnetHost

@@ -6,7 +6,7 @@ namespace Qwr::DotnetHost
 {
 
 NetFbPreferencesPageCallback::NetFbPreferencesPageCallback( preferences_page_callback::ptr& callback )
-    : pCallback_( &callback )
+    : pCallback_( new preferences_page_callback::ptr( callback ) )
 {
 }
 
@@ -17,7 +17,11 @@ NetFbPreferencesPageCallback::~NetFbPreferencesPageCallback()
 
 NetFbPreferencesPageCallback::!NetFbPreferencesPageCallback()
 {
-    pCallback_ = nullptr;
+    if ( pCallback_ )
+    {
+        delete pCallback_;
+        pCallback_ = nullptr;
+    }
 }
 
 void NetFbPreferencesPageCallback::OnStateChanged()

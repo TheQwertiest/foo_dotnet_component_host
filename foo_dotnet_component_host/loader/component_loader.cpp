@@ -18,7 +18,7 @@ ComponentLoader::ComponentLoader()
     InitializeAssemblyLoader();
 }
 
-List<IComponent ^> ^ComponentLoader::LoadComponentsInDir( System::String ^ dirName, System::String ^ filePrefix )
+List<IComponent ^> ^ ComponentLoader::LoadComponentsInDir( System::String ^ dirName, System::String ^ filePrefix )
 {
     try
     {
@@ -37,7 +37,7 @@ List<IComponent ^> ^ComponentLoader::LoadComponentsInDir( System::String ^ dirNa
                 auto component = LoadComponent( f->FullName );
                 components->Add( component );
                 // TODO: consider moving this somewhere more proper
-                RegisterComponent( Path::GetFileNameWithoutExtension(f->Name), component->GetInfo() );
+                RegisterComponent( Path::GetFileNameWithoutExtension( f->Name ), component->GetInfo() );
             }
             catch ( Exception ^ e )
             {

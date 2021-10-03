@@ -15,7 +15,7 @@ using namespace Qwr::DotnetHost;
 class MainMenuCommands_Impl : public mainmenu_commands
 {
 public:
-    MainMenuCommands_Impl( GUID guid, GUID parentGuid, uint32_t sortPriority );
+    MainMenuCommands_Impl( GUID parentGuid, uint32_t sortPriority );
 
     t_uint32 get_command_count() override;
     GUID get_command( t_uint32 p_index ) override;
@@ -31,7 +31,6 @@ private:
     List<NetFbMainMenuCommand ^> ^ GetCommands();
 
 private:
-    const GUID guid_;
     const GUID parentGuid_;
     const uint32_t sortPriority_;
 
@@ -57,16 +56,15 @@ private:
     const bool isPopup_;
 };
 
-}
+} // namespace
 
 namespace
 {
 
 using namespace Qwr::DotnetHost;
 
-MainMenuCommands_Impl::MainMenuCommands_Impl( GUID guid, GUID parentGuid, uint32_t sortPriority )
-    : guid_( guid )
-    , parentGuid_( parentGuid )
+MainMenuCommands_Impl::MainMenuCommands_Impl( GUID parentGuid, uint32_t sortPriority )
+    : parentGuid_( parentGuid )
     , sortPriority_( sortPriority )
 {
 }
@@ -182,13 +180,12 @@ List<NetFbMainMenuCommand ^> ^ MainMenuCommands_Impl::GetCommands()
     return commands_;
 }
 
-
 MainMenuGroup_Impl::MainMenuGroup_Impl( GUID guid, GUID parentGuid, const std::string& name, uint32_t sortPriority, bool isPopup )
-    : guid_(guid)
-    , parentGuid_(parentGuid)
-    , name_(name)
-    , sortPriority_(sortPriority)
-    , isPopup_(isPopup)
+    : guid_( guid )
+    , parentGuid_( parentGuid )
+    , name_( name )
+    , sortPriority_( sortPriority )
+    , isPopup_( isPopup )
 {
 }
 
@@ -217,7 +214,7 @@ bool MainMenuGroup_Impl::popup_condition()
     return isPopup_;
 }
 
-}
+} // namespace
 
 namespace
 {
@@ -230,11 +227,11 @@ std::vector<std::unique_ptr<service_factory_single_t<MainMenuGroup_Impl>>> g_mai
 namespace Qwr::DotnetHost
 {
 
-void RegisterMainMenuCommandSection( GUID guid, GUID parentGuid, uint32_t sortPriority, List<NetFbMainMenuCommand ^> ^ commands )
+void RegisterMainMenuCommandSection( GUID parentGuid, uint32_t sortPriority, List<NetFbMainMenuCommand ^> ^ commands )
 {
     assert( commands != nullptr );
 
-    auto& pElem = g_mainMenuCommands.emplace_back( std::make_unique<service_factory_single_t<MainMenuCommands_Impl>>( guid, parentGuid, sortPriority ) );
+    auto& pElem = g_mainMenuCommands.emplace_back( std::make_unique<service_factory_single_t<MainMenuCommands_Impl>>( parentGuid, sortPriority ) );
     pElem->get_static_instance().SetCommands( commands );
 }
 
