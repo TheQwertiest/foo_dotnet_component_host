@@ -1,7 +1,7 @@
 #pragma once
 
 using namespace System;
-using namespace Qwr::ComponentBase;
+using namespace Qwr::ComponentInterface;
 
 namespace Qwr::DotnetHost
 {

@@ -1,7 +1,7 @@
 #include <stdafx.h>
 
 using namespace System;
-using namespace Qwr::ComponentBase;
+using namespace Qwr::ComponentInterface;
 
 namespace Qwr::DotnetHost
 {
@@ -16,7 +16,7 @@ public:
 
     void Initialize();
 
-    virtual Version^ HostVersion();
+    virtual Version ^ HostVersion();
     virtual Guid Fb2kGuid( Fb2kGuidId id );
     virtual Drawing::Icon ^ Fb2kIcon();
     virtual String ^ Fb2kPath();

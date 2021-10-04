@@ -2,7 +2,7 @@
 
 using namespace System;
 using namespace System::Collections::Generic;
-using namespace Qwr::ComponentBase;
+using namespace Qwr::ComponentInterface;
 
 namespace Qwr::DotnetHost
 {
@@ -12,7 +12,8 @@ ref class Fb2kStaticServices;
 ref class Fb2kDynamicServices;
 ref class Fb2kUtils;
 
-private ref class Host
+private
+ref class Host
 {
 public:
     Host();
@@ -31,7 +32,7 @@ private:
 
     bool isInitialized_ = false;
 
-    List<IComponent^> ^ components_ = nullptr;
+    List<IComponent ^> ^ components_ = nullptr;
     Fb2kControls ^ fb2kControls_ = nullptr;
     Fb2kStaticServices ^ fb2kStaticServices_ = nullptr;
     Fb2kDynamicServices ^ fb2kDynamicServices_ = nullptr;

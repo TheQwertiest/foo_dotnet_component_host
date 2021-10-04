@@ -1,11 +1,11 @@
 #pragma once
 
 using namespace System;
-using namespace Qwr::ComponentBase;
+using namespace Qwr::ComponentInterface;
 
 namespace Qwr::DotnetHost
 {
 
-void RegisterComponent( String ^ filename, IComponent::Info ^ componentInfo );
+void RegisterComponent( String ^ filename, ComponentInfo ^ componentInfo );
 
 } // namespace Qwr::DotnetHost

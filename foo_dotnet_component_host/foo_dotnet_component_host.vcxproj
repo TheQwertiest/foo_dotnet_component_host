@@ -81,8 +81,8 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\dotnet_sdk_iface\dotnet_sdk_iface.csproj">
-      <Project>{c611a3b9-4014-4b15-a56b-45fe3db9cb93}</Project>
+    <ProjectReference Include="..\dotnet_component_interface\dotnet_component_interface.csproj">
+      <Project>{18ffd467-1a00-4eef-8229-a29809f8ca89}</Project>
     </ProjectReference>
     <ProjectReference Include="..\submodules\foobar2000\SDK\foobar2000_SDK.vcxproj">
       <Project>{e8091321-d79d-4575-86ef-064ea1a4a20d}</Project>

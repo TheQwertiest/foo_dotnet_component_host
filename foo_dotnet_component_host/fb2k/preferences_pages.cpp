@@ -61,7 +61,7 @@ protected:
 namespace
 {
 
-using namespace Qwr::ComponentBase;
+using namespace Qwr::ComponentInterface;
 
 PreferencesPage::PreferencesPage( const std::string& name, const GUID& guid, const GUID& parentGuid, const std::string& helpUrl /*, Type ^ preferencePageType */ )
     : name_( name )

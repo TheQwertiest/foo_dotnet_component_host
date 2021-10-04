@@ -18,7 +18,7 @@ namespace Qwr::DotnetHost
 {
 
 private
-ref class InfoEnumerator : IEnumerator<IFileInfo::Info>
+ref class InfoEnumerator : IEnumerator<FileInfoInfo>
 {
 public:
     InfoEnumerator( NetFbFileInfo ^ netFileInfo );
@@ -30,9 +30,9 @@ public:
 
     virtual void Reset();
 
-    virtual property IFileInfo::Info Current
+    virtual property FileInfoInfo Current
     {
-        IFileInfo::Info get();
+        FileInfoInfo get();
     }
 
     // clang-format off
@@ -47,11 +47,11 @@ private:
     const int32_t infoCount_;
 
     int32_t curIndex_ = -1;
-    IFileInfo::Info curValue_{};
+    FileInfoInfo curValue_{};
 };
 
 private
-ref class MetaEnumerator : IEnumerator<IFileInfo::Meta>
+ref class MetaEnumerator : IEnumerator<FileInfoMeta>
 {
 public:
     MetaEnumerator( NetFbFileInfo ^ netFileInfo );
@@ -63,9 +63,9 @@ public:
 
     virtual void Reset();
 
-    virtual property IFileInfo::Meta Current
+    virtual property FileInfoMeta Current
     {
-        IFileInfo::Meta get();
+        FileInfoMeta get();
     }
 
     // clang-format off
@@ -82,7 +82,7 @@ private:
     const int32_t metaCount_;
 
     int32_t curIndex_ = -1;
-    IFileInfo::Meta curValue_{};
+    FileInfoMeta curValue_{};
 };
 
 private
@@ -120,24 +120,24 @@ private:
 };
 
 private
-ref class InfoEnumFactory : IEnumeratorFactory<IFileInfo::Info>
+ref class InfoEnumFactory : IEnumeratorFactory<FileInfoInfo>
 {
 public:
     InfoEnumFactory( NetFbFileInfo ^ netFileInfo );
 
-    virtual IEnumerator<IFileInfo::Info> ^ Generate();
+    virtual IEnumerator<FileInfoInfo> ^ Generate();
 
 private:
     NetFbFileInfo ^ netFileInfo_;
 };
 
 private
-ref class MetaEnumFactory : IEnumeratorFactory<IFileInfo::Meta>
+ref class MetaEnumFactory : IEnumeratorFactory<FileInfoMeta>
 {
 public:
     MetaEnumFactory( NetFbFileInfo ^ netFileInfo );
 
-    virtual IEnumerator<IFileInfo::Meta> ^ Generate();
+    virtual IEnumerator<FileInfoMeta> ^ Generate();
 
 private:
     NetFbFileInfo ^ netFileInfo_;
@@ -185,7 +185,7 @@ bool InfoEnumerator::MoveNext()
     const auto value = fileInfo_.info_enum_value( curIndex_ );
     assert( name );
     assert( value );
-    curValue_ = IFileInfo::Info();
+    curValue_ = FileInfoInfo();
     curValue_.Name = Convert::ToNet::ToValue( std::string_view{ name } );
     curValue_.Value = Convert::ToNet::ToValue( std::string_view{ value } );
 
@@ -197,7 +197,7 @@ void InfoEnumerator::Reset()
     curIndex_ = -1;
 }
 
-IFileInfo::Info InfoEnumerator::Current::get()
+FileInfoInfo InfoEnumerator::Current::get()
 {
     if ( curIndex_ < 0 || curIndex_ >= infoCount_ )
     {
@@ -236,7 +236,7 @@ bool MetaEnumerator::MoveNext()
     const auto value = fileInfo_.info_enum_value( curIndex_ );
     assert( name );
     assert( value );
-    curValue_ = IFileInfo::Meta();
+    curValue_ = FileInfoMeta();
     curValue_.Name = Convert::ToNet::ToValue( std::string_view{ name } );
     curValue_.Values = MakeEnumerable( gcnew MetaValuesEnumFactory( this, curIndex_ ) );
 
@@ -248,7 +248,7 @@ void MetaEnumerator::Reset()
     curIndex_ = -1;
 }
 
-IFileInfo::Meta MetaEnumerator::Current::get()
+FileInfoMeta MetaEnumerator::Current::get()
 {
     if ( curIndex_ < 0 || curIndex_ >= metaCount_ )
     {
@@ -321,7 +321,7 @@ InfoEnumFactory::InfoEnumFactory( NetFbFileInfo ^ netFileInfo )
 {
 }
 
-IEnumerator<IFileInfo::Info> ^ InfoEnumFactory::Generate()
+IEnumerator<FileInfoInfo> ^ InfoEnumFactory::Generate()
 {
     return gcnew InfoEnumerator( netFileInfo_ );
 }
@@ -331,7 +331,7 @@ MetaEnumFactory::MetaEnumFactory( NetFbFileInfo ^ netFileInfo )
 {
 }
 
-IEnumerator<IFileInfo::Meta> ^ MetaEnumFactory::Generate()
+IEnumerator<FileInfoMeta> ^ MetaEnumFactory::Generate()
 {
     return gcnew MetaEnumerator( netFileInfo_ );
 }
@@ -377,12 +377,12 @@ NetFbFileInfo::!NetFbFileInfo()
     }
 }
 
-IEnumerable<IFileInfo::Info> ^ NetFbFileInfo::InfoEnum()
+IEnumerable<FileInfoInfo> ^ NetFbFileInfo::InfoEnum()
 {
     return MakeEnumerable( gcnew InfoEnumFactory( this ) );
 }
 
-IEnumerable<IFileInfo::Meta> ^ NetFbFileInfo::MetaEnum()
+IEnumerable<FileInfoMeta> ^ NetFbFileInfo::MetaEnum()
 {
     return MakeEnumerable( gcnew MetaEnumFactory( this ) );
 }

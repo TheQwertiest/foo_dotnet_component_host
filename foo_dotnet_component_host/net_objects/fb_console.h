@@ -1,15 +1,17 @@
 #pragma once
 
 using namespace System;
-using namespace Qwr::ComponentBase;
+using namespace Qwr::ComponentInterface;
 
-namespace Qwr::DotnetHost {
+namespace Qwr::DotnetHost
+{
 
-private ref class NetFbConsole sealed : public IConsole
+private
+ref class NetFbConsole sealed : public IConsole
 {
 public:
     virtual void Log( String ^ text );
     static void LogStatic( String ^ text );
 };
 
-}
+} // namespace Qwr::DotnetHost

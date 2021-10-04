@@ -1,7 +1,7 @@
 #pragma once
 
 using namespace System;
-using namespace Qwr::ComponentBase;
+using namespace Qwr::ComponentInterface;
 
 namespace Qwr::DotnetHost
 {
@@ -10,7 +10,7 @@ private
 ref class NetFbPlayControl sealed : public IPlaybackControls
 {
 public:
-    virtual IMetadbHandle^ NowPlaying();
+    virtual IMetadbHandle ^ NowPlaying();
     virtual double TrackPlaybackPosition();
     virtual bool IsPlaying();
     virtual bool IsPaused();
@@ -20,4 +20,4 @@ public:
     virtual void Prev();
 };
 
-} // namespace fooManagedWrapper
+} // namespace Qwr::DotnetHost

@@ -56,7 +56,7 @@ std::vector<std::unique_ptr<service_factory_single_t<ComponentVersion>>> g_regis
 namespace Qwr::DotnetHost
 {
 
-void RegisterComponent( String ^ filename, IComponent::Info ^ componentInfo )
+void RegisterComponent( String ^ filename, ComponentInfo ^ componentInfo )
 {
     g_registeredComponent.emplace_back( std::make_unique<service_factory_single_t<ComponentVersion>>(
         Convert::ToNative::ToValue( filename ),

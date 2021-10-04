@@ -2,7 +2,7 @@
 
 using namespace System;
 using namespace System::Collections::Generic;
-using namespace Qwr::ComponentBase;
+using namespace Qwr::ComponentInterface;
 
 namespace Qwr::DotnetHost::Convert::ToNative
 {
@@ -10,6 +10,6 @@ namespace Qwr::DotnetHost::Convert::ToNative
 std::string ToValue( String ^ inValue );
 GUID ToValue( Guid ^ inValue );
 metadb_handle_ptr ToValue( IMetadbHandle ^ inValue );
-metadb_handle_list ToValue( List< IMetadbHandle^> ^ inValue );
+metadb_handle_list ToValue( List<IMetadbHandle ^> ^ inValue );
 
-}
+} // namespace Qwr::DotnetHost::Convert::ToNative

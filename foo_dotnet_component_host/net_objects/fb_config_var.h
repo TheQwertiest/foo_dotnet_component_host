@@ -3,7 +3,7 @@
 #include <variant>
 
 using namespace System;
-using namespace Qwr::ComponentBase;
+using namespace Qwr::ComponentInterface;
 
 namespace Qwr::DotnetHost
 {
@@ -25,5 +25,4 @@ private:
     ConfigT* pConfig_ = nullptr;
 };
 
-}
-
+} // namespace Qwr::DotnetHost

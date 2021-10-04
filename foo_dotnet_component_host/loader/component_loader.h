@@ -2,7 +2,7 @@
 
 using namespace System;
 using namespace System::Collections::Generic;
-using namespace Qwr::ComponentBase;
+using namespace Qwr::ComponentInterface;
 
 namespace Qwr::DotnetHost
 {
@@ -21,4 +21,4 @@ private:
     IComponent ^ CreateInstance( Type ^ type );
 };
 
-} // namespace Qwr::DotnetLoader
+} // namespace Qwr::DotnetHost

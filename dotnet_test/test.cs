@@ -1,4 +1,4 @@
-﻿using Qwr.ComponentBase;
+﻿using Qwr.ComponentInterface;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -32,7 +32,7 @@ namespace fooTest
             var fileGroup = servicesManager.GetMainMenuGroup(
                 Guid.Parse("{8F487F1F-419F-47a7-8ECF-EC44AF4449A3}"));
             var group = fileGroup.AddGroup(Guid.NewGuid(), "test");
-            var cmdSection = group.AddCommandSection(Guid.NewGuid());
+            var cmdSection = group.AddCommandSection();
             var cmd = cmdSection.AddCommand(Guid.NewGuid(), "cmd 0", "azaza",
                                             () => { Log("Lazor!"); });
             cmdSection.AddCommand(Guid.NewGuid(), "cmd 1", "ololo",
@@ -66,9 +66,9 @@ namespace fooTest
 
             _callbacks.PlaybackAdvancedToNewTrack += (sender, argWrapper) =>
             {
-                      // var meta = argWrapper.Value;
-                      //_console.Log(controls.TitleFormat("%title%").EvalWithMetadb(meta));
-                      controls.ExecuteMainMenuCommand("cmd 0");
+                // var meta = argWrapper.Value;
+                //_console.Log(controls.TitleFormat("%title%").EvalWithMetadb(meta));
+                controls.ExecuteMainMenuCommand("cmd 0");
             };
         }
         public void Shutdown() { _console.Log("quit"); }

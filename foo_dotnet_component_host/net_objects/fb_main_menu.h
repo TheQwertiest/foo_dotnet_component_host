@@ -2,7 +2,7 @@
 
 using namespace System;
 using namespace System::Collections::Generic;
-using namespace Qwr::ComponentBase;
+using namespace Qwr::ComponentInterface;
 
 namespace Qwr::DotnetHost
 {
