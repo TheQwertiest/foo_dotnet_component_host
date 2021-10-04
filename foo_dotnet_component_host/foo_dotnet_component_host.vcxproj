@@ -119,6 +119,7 @@
     <ClInclude Include="net_objects\fb_play_callback.h" />
     <ClInclude Include="net_objects\fb_title_format.h" />
     <ClInclude Include="net_utils\exception_generator.h" />
+    <ClInclude Include="resources\resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="utils\fb2k_paths.h" />
     <ClInclude Include="utils\menu_helpers.h" />
@@ -156,6 +157,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources\foo_dotnet_component_host.rc" />
+    <ResourceCompile Include="resources\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

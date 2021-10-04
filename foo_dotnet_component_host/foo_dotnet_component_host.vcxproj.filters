@@ -157,6 +157,9 @@
     <ClInclude Include="utils\fb2k_paths.h">
       <Filter>utils</Filter>
     </ClInclude>
+    <ClInclude Include="resources\resource.h">
+      <Filter>resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />
@@ -186,5 +189,16 @@
     <Filter Include="net_utils">
       <UniqueIdentifier>{f3e5b605-0f6d-42ba-90f4-af9a5b1b1b4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{8f46a23b-b62c-4c0d-9eae-75b219adfc88}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources\version.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="resources\foo_dotnet_component_host.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
