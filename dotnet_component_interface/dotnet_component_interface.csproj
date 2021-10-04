@@ -6,6 +6,7 @@
 
   <PropertyGroup>
     <PlatformTarget>x86</PlatformTarget>
+    <Platforms>Win32</Platforms>
     <Nullable>enable</Nullable>
     <AssemblyName>dotnet_component_interface</AssemblyName>
     <RootNamespace>DotnetComponentInterface</RootNamespace>
@@ -19,20 +20,10 @@
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <OutputPath>..\_result\Win32_Debug\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <OutputPath>..\_result\Win32_Release\bin\</OutputPath>
-  </PropertyGroup>
+  <Import Project="$(SolutionDir)\..\props\submodules\submodules.props" />
+  <Import Project="$(SubmodulesDirectory)fb2k_utils\props\env\BuildEnvCommon.props" />
+  <Import Project="$(SubmodulesDirectory)fb2k_utils\props\env\BuildEnvCSharp.props" />
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
-
-
 </Project>
