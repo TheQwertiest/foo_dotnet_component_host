@@ -35,8 +35,10 @@ namespace Qwr.ComponentInterface
         string Fb2kPath();
         [RequiresInitialization]
         string Fb2kVersion();
-        string ProfilePath();
         [RequiresInitialization]
         bool IsFb2kMinimized();
+        string ProfilePath();
+        [RequiresInitialization]
+        void ShowPopup(string text, string title);
     }
 }

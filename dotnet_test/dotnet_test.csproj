@@ -9,13 +9,18 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PlatformTarget>x86</PlatformTarget>
-    <Platforms>Win32</Platforms>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\..\props\submodules\submodules.props" />
   <Import Project="$(SubmodulesDirectory)fb2k_utils\props\env\BuildEnvCommon.props" />
   <Import Project="$(SubmodulesDirectory)fb2k_utils\props\env\BuildEnvCSharp.props" />
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\dotnet_component_interface\dotnet_component_interface.csproj">
+      <Private>False</Private> 
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
   </ItemGroup>
 </Project>

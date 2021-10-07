@@ -30,6 +30,8 @@ namespace fooTest
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.myButton1 = new fooTest.Custom.MyButton();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -38,6 +40,7 @@ namespace fooTest
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.myButton1, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -46,6 +49,15 @@ namespace fooTest
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 450);
             this.tableLayoutPanel1.TabIndex = 1;
+            // 
+            // myButton1
+            // 
+            this.myButton1.Location = new System.Drawing.Point(404, 6);
+            this.myButton1.Name = "myButton1";
+            this.myButton1.Size = new System.Drawing.Size(75, 23);
+            this.myButton1.TabIndex = 0;
+            this.myButton1.Text = "myButton1";
+            this.myButton1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -56,6 +68,7 @@ namespace fooTest
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -63,5 +76,6 @@ namespace fooTest
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private Custom.MyButton myButton1;
     }
 }

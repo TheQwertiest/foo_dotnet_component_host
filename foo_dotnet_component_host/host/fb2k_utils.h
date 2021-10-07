@@ -21,8 +21,9 @@ public:
     virtual Drawing::Icon ^ Fb2kIcon();
     virtual String ^ Fb2kPath();
     virtual String ^ Fb2kVersion();
-    virtual String ^ ProfilePath();
     virtual bool IsFb2kMinimized();
+    virtual String ^ ProfilePath();
+    virtual void ShowPopup( String ^ text, String ^ title );
 
 private:
     static_api_ptr_t<ui_control>* pUiControl_ = nullptr;

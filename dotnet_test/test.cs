@@ -5,6 +5,11 @@ using System.Windows.Forms;
 
 namespace fooTest
 {
+    namespace Custom
+    {
+        internal class MyButton : Button { }
+    }
+
     public class Test : IComponent
     {
         IConfigVar<string> _myCfg;
@@ -43,9 +48,9 @@ namespace fooTest
 
         public void Log(string msg) { _console.Log(msg); }
 
-        public IComponent.Info GetInfo()
+        public ComponentInfo GetInfo()
         {
-            IComponent.Info info;
+            ComponentInfo info;
             info.Name = "Test plugin";
             info.Version = new Version("1.0.0");
             info.Description = "Just a test plugin, really";

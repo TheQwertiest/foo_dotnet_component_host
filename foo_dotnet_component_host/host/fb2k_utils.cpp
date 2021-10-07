@@ -2,6 +2,7 @@
 
 #include "fb2k_utils.h"
 
+#include <convert/to_native.h>
 #include <convert/to_net.h>
 #include <host/host.h>
 #include <utils/fb2k_paths.h>
@@ -117,11 +118,6 @@ String ^ Fb2kUtils::Fb2kVersion()
     return Convert::ToNet::ToValue( std::string_view( pChar ) );
 }
 
-String ^ Fb2kUtils::ProfilePath()
-{
-    return Convert::ToNet::ToValue( Qwr::DotnetHost::ProfilePath() ) + Path::DirectorySeparatorChar;
-}
-
 bool Fb2kUtils::IsFb2kMinimized()
 {
     if ( !pUiControl_ )
@@ -130,6 +126,16 @@ bool Fb2kUtils::IsFb2kMinimized()
     }
 
     return !( *pUiControl_ ).get_ptr()->is_visible();
+}
+
+String ^ Fb2kUtils::ProfilePath()
+{
+    return Convert::ToNet::ToValue( Qwr::DotnetHost::ProfilePath() ) + Path::DirectorySeparatorChar;
+}
+
+void Fb2kUtils::ShowPopup( String ^ text, String ^ title )
+{
+    popup_message::g_show( Convert::ToNative::ToValue( text ).c_str(), Convert::ToNative::ToValue( title ).c_str() );
 }
 
 } // namespace Qwr::DotnetHost
