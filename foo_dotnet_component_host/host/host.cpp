@@ -47,7 +47,11 @@ void Host::Initialize( String ^ modulePath )
         timer.start();
 
         components_ = gcnew List<Component ^>;
-        auto components = componentLoader->GetComponentsInDir( System::IO::Path::GetDirectoryName( modulePath ) + "\\plugins", "dotnet_" );
+
+        // can't use fb2k method to retrieve profile dir here, because it's not working yet.
+        // hence we have to divine it: profile/user-components/current_module_dir/current_module.dll
+        auto pluginsDir = Path::Combine( Path::GetDirectoryName( Path::GetDirectoryName( Path::GetDirectoryName( modulePath ) ) ), DNET_UNDERSCORE_NAME, "components" );
+        auto components = componentLoader->GetComponentsInDir( pluginsDir );
         for each ( auto component in components )
         {
             try

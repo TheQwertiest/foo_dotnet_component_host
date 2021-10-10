@@ -16,23 +16,26 @@ ComponentLoader::ComponentLoader()
     InitializeAssemblyLoader();
 }
 
-List<Component ^> ^ ComponentLoader::GetComponentsInDir( System::String ^ dirName, System::String ^ filePrefix )
+List<Component ^> ^ ComponentLoader::GetComponentsInDir( System::String ^ dirName )
 {
-    auto di = gcnew DirectoryInfo( dirName );
-    auto files = di->GetFiles( filePrefix + "*.dll" );
-
     auto components = gcnew List<Component ^>();
 
-    for each ( auto f in files )
+    if ( !Directory::Exists( dirName ) )
     {
-        if ( f->Name == DNET_DLL_NAME )
+        return components;
+    }
+
+    for each ( auto d in Directory::EnumerateDirectories( dirName ) )
+    {
+        auto componentDllPath = Path::Combine( d, Path::GetFileName( d ) + ".dll" );
+        if ( !File::Exists( componentDllPath ) )
         {
             continue;
         }
 
         auto component = gcnew Component();
-        component->fullPath = f->FullName;
-        component->dllName = Path::GetFileNameWithoutExtension( f->FullName );
+        component->fullPath = componentDllPath;
+        component->dllName = Path::GetFileNameWithoutExtension( componentDllPath );
         components->Add( component );
     }
 

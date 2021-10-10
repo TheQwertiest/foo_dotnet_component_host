@@ -16,7 +16,7 @@ public:
     ComponentLoader();
 
 public:
-    List<Component ^> ^ GetComponentsInDir( String ^ dirName, String ^ filePrefix );
+    List<Component ^> ^ GetComponentsInDir( String ^ dirName );
     void LoadComponent( Component ^ component );
 
 private:
