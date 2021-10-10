@@ -1,5 +1,7 @@
 #pragma once
 
+#include <host/component.h>
+
 using namespace System;
 using namespace System::Collections::Generic;
 using namespace Qwr::ComponentInterface;
@@ -32,7 +34,7 @@ private:
 
     bool isInitialized_ = false;
 
-    List<IComponent ^> ^ components_ = nullptr;
+    List<Component ^> ^ components_ = nullptr;
     Fb2kControls ^ fb2kControls_ = nullptr;
     Fb2kStaticServices ^ fb2kStaticServices_ = nullptr;
     Fb2kDynamicServices ^ fb2kDynamicServices_ = nullptr;

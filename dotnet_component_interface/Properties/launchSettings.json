@@ -2,7 +2,8 @@
   "profiles": {
     "dotnet_sdk_iface": {
       "commandName": "Executable",
-      "executablePath": "X:\\foobar_test\\_scratch\\foobar2000.exe"
+      "executablePath": "X:\\foobar_test\\_scratch\\foobar2000.exe",
+      "nativeDebugging": false
     }
   }
 }

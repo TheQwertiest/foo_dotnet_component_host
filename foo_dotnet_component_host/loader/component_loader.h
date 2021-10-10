@@ -1,5 +1,7 @@
 #pragma once
 
+#include <host/component.h>
+
 using namespace System;
 using namespace System::Collections::Generic;
 using namespace Qwr::ComponentInterface;
@@ -14,10 +16,10 @@ public:
     ComponentLoader();
 
 public:
-    List<IComponent ^> ^ LoadComponentsInDir( String ^ dirName, String ^ filePrefix );
+    List<Component ^> ^ GetComponentsInDir( String ^ dirName, String ^ filePrefix );
+    void LoadComponent( Component ^ component );
 
 private:
-    IComponent ^ LoadComponent( String ^ assemblyName );
     IComponent ^ CreateInstance( Type ^ type );
 };
 

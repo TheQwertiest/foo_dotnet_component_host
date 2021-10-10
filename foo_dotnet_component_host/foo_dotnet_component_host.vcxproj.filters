@@ -78,6 +78,9 @@
     <ClCompile Include="utils\fb2k_paths.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="utils\delayed_log.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="component_defines.h" />
@@ -159,6 +162,12 @@
     </ClInclude>
     <ClInclude Include="resources\resource.h">
       <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\delayed_log.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="host\component.h">
+      <Filter>host</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

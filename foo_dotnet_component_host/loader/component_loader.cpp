@@ -2,9 +2,7 @@
 
 #include "component_loader.h"
 
-#include <fb2k/component_registration.h>
 #include <loader/assembly_loader.h>
-#include <net_objects/fb_console.h>
 
 using namespace System::Reflection;
 using namespace System;
@@ -18,77 +16,79 @@ ComponentLoader::ComponentLoader()
     InitializeAssemblyLoader();
 }
 
-List<IComponent ^> ^ ComponentLoader::LoadComponentsInDir( System::String ^ dirName, System::String ^ filePrefix )
+List<Component ^> ^ ComponentLoader::GetComponentsInDir( System::String ^ dirName, System::String ^ filePrefix )
 {
-    try
-    {
-        auto di = gcnew DirectoryInfo( dirName );
-        auto files = di->GetFiles( filePrefix + "*.dll" );
+    auto di = gcnew DirectoryInfo( dirName );
+    auto files = di->GetFiles( filePrefix + "*.dll" );
 
-        auto components = gcnew List<IComponent ^>();
-        for each ( auto f in files )
+    auto components = gcnew List<Component ^>();
+
+    for each ( auto f in files )
+    {
+        if ( f->Name == DNET_DLL_NAME )
         {
-            try
-            {
-                if ( f->Name == DNET_DLL_NAME )
-                {
-                    continue;
-                }
-                auto component = LoadComponent( f->FullName );
-                components->Add( component );
-                // TODO: consider moving this somewhere more proper
-                RegisterComponent( Path::GetFileNameWithoutExtension( f->Name ), component->GetInfo() );
-            }
-            catch ( Exception ^ e )
-            {
-                auto msg = gcnew String( "Error loading .NET component:\n" );
-                msg += "\tcomponent name: " + f->FullName + "\n";
-                msg += "\terror: " + e->Message;
-                NetFbConsole::LogStatic( msg );
-            }
+            continue;
         }
 
-        return components;
+        auto component = gcnew Component();
+        component->fullPath = f->FullName;
+        component->dllName = Path::GetFileNameWithoutExtension( f->FullName );
+        components->Add( component );
     }
-    catch ( Exception ^ e )
-    {
-        auto msg = gcnew String( "Error loading .NET component:\n" );
-        msg += "\tdirectory: " + dirName + "\n";
-        msg += "\terror: " + e->Message;
-        NetFbConsole::LogStatic( msg );
 
-        return gcnew List<IComponent ^>();
-    }
+    return components;
 }
 
-IComponent ^ ComponentLoader::LoadComponent( System::String ^ assemblyName )
+void ComponentLoader::LoadComponent( Component ^ component )
 {
-    pfc::hires_timer timer;
-    timer.start();
-
-    FB2K_console_formatter() << ( "0" + std::to_string( static_cast<uint32_t>( timer.query() * 1000 ) ) + "ms" ).c_str();
+    auto fullPath = component->fullPath;
+    assert( fullPath );
 
     auto clientType = IComponent::typeid;
-    auto loadContext = gcnew ComponentLoadContext( assemblyName );
-    auto assembly = loadContext->LoadFromAssemblyName( AssemblyName::GetAssemblyName( assemblyName ) );
-
-    FB2K_console_formatter() << ( "1" + std::to_string( static_cast<uint32_t>( timer.query() * 1000 ) ) + "ms" ).c_str();
+    auto loadContext = gcnew ComponentLoadContext( fullPath );
+    auto assembly = loadContext->LoadFromAssemblyName( AssemblyName::GetAssemblyName( fullPath ) );
 
     for each ( Type ^ t in assembly->GetTypes() )
     {
         if ( clientType->IsAssignableFrom( t ) )
         {
-            FB2K_console_formatter() << ( "2" + std::to_string( static_cast<uint32_t>( timer.query() * 1000 ) ) + "ms" ).c_str();
-            return CreateInstance( t );
+            component->instance = CreateInstance( t );
+            return;
         }
     }
 
-    throw gcnew Exception( "Failed to bind assembly: " + assemblyName );
+    throw gcnew Exception( "Failed to find component entry point: " + fullPath );
 };
 
 IComponent ^ ComponentLoader::CreateInstance( Type ^ type )
 {
     auto ctorInfo = type->GetConstructor( Type::EmptyTypes );
+    if ( ctorInfo == nullptr )
+    {
+        throw gcnew Exception( "Can't access component constructor" );
+    }
+
+    auto ctorAttributes = ctorInfo->GetCustomAttributes( false );
+    auto interfaceAttributeType = ComponentInterfaceVersionAttribute::typeid;
+    auto currentVersion = Assembly::GetAssembly( interfaceAttributeType )->GetName()->Version;
+    for each ( auto attr in ctorAttributes )
+    {
+        if ( attr->GetType() == interfaceAttributeType )
+        {
+            auto interfaceAttribute = dynamic_cast<ComponentInterfaceVersionAttribute ^>( attr );
+            auto supportedVersion = interfaceAttribute->Version;
+            if ( currentVersion->Major != supportedVersion->Major
+                 || currentVersion->Minor < supportedVersion->Minor )
+            {
+                throw gcnew Exception( "Interface version mismatch:\n"
+                                       + "  Interface version requested by component: " + supportedVersion->ToString() + "\n"
+                                       + "  Host interface version: " + currentVersion->ToString() + "\n"
+                                       + "Update " DNET_UNDERSCORE_NAME " to use this .NET component" );
+            }
+            break;
+        }
+    }
+
     return dynamic_cast<IComponent ^>( ctorInfo->Invoke( nullptr ) );
 }
 
