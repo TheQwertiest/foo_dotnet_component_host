@@ -15,6 +15,7 @@
 
 #pragma unmanaged
 
+// foobar2000 SDK
 #pragma warning( push, 0 )
 #   include <foobar2000\sdk\foobar2000.h>
 #   include <foobar2000\sdk\component.h>
@@ -36,5 +37,6 @@
 #include <vcclr.h>
 
 #include <component_defines.h>
+#include <component_guids.h>
 
 // clang-format on

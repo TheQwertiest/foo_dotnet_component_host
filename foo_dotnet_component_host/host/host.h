@@ -29,6 +29,8 @@ public:
 
     bool IsInitialized();
 
+    List<Component ^> ^ GetComponents();
+
 private:
     static Host ^ self_;
 

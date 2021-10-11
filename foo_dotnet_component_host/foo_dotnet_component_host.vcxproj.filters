@@ -81,6 +81,15 @@
     <ClCompile Include="utils\delayed_log.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="ui\ui_preferences_form.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ui_preferences.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\ui_custom_controls.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="component_defines.h" />
@@ -169,6 +178,16 @@
     <ClInclude Include="host\component.h">
       <Filter>host</Filter>
     </ClInclude>
+    <ClInclude Include="ui\ui_preferences_form.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="component_guids.h" />
+    <ClInclude Include="ui\ui_preferences.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\ui_custom_controls.h">
+      <Filter>ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />
@@ -200,6 +219,9 @@
     </Filter>
     <Filter Include="resource">
       <UniqueIdentifier>{8f46a23b-b62c-4c0d-9eae-75b219adfc88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{7257ad23-dd0e-424e-a27d-2ff7c496c7c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

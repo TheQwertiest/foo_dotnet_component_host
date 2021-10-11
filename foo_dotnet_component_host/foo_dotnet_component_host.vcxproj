@@ -69,6 +69,9 @@
       <AdditionalDependencies>ole32.lib;User32.lib;shlwapi.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
@@ -96,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="component_defines.h" />
+    <ClInclude Include="component_guids.h" />
     <ClInclude Include="convert\to_net.h" />
     <ClInclude Include="convert\to_native.h" />
     <ClInclude Include="fb2k\main_menu.h" />
@@ -122,6 +126,11 @@
     <ClInclude Include="net_utils\exception_generator.h" />
     <ClInclude Include="resources\resource.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="ui\ui_custom_controls.h" />
+    <ClInclude Include="ui\ui_preferences.h" />
+    <ClInclude Include="ui\ui_preferences_form.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="utils\delayed_log.h" />
     <ClInclude Include="utils\fb2k_paths.h" />
     <ClInclude Include="utils\menu_helpers.h" />
@@ -154,6 +163,9 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ui\ui_custom_controls.cpp" />
+    <ClCompile Include="ui\ui_preferences.cpp" />
+    <ClCompile Include="ui\ui_preferences_form.cpp" />
     <ClCompile Include="utils\delayed_log.cpp" />
     <ClCompile Include="utils\fb2k_paths.cpp" />
     <ClCompile Include="utils\menu_helpers.cpp" />
@@ -164,6 +176,11 @@
   <ItemGroup>
     <ResourceCompile Include="resources\foo_dotnet_component_host.rc" />
     <ResourceCompile Include="resources\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ui\ui_preferences_form.resx">
+      <DependentUpon>ui\ui_preferences_form.h</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,6 +8,7 @@
 #include <host/fb2k_utils.h>
 #include <loader/component_loader.h>
 #include <net_objects/fb_console.h>
+#include <ui/ui_preferences.h>
 #include <utils/delayed_log.h>
 
 using namespace System::IO;
@@ -41,12 +42,13 @@ void Host::Initialize( String ^ modulePath )
         fb2kDynamicServices_ = gcnew Fb2kDynamicServices();
         fb2kUtils_ = gcnew Fb2kUtils();
 
+        components_ = gcnew List<Component ^>;
+        fb2kStaticServices_->RegisterPreferencesPage( Preferences::GetInfo(), Preferences::typeid );
+
         auto componentLoader = gcnew ComponentLoader();
 
         pfc::hires_timer timer;
         timer.start();
-
-        components_ = gcnew List<Component ^>;
 
         // can't use fb2k method to retrieve profile dir here, because it's not working yet.
         // hence we have to divine it: profile/user-components/current_module_dir/current_module.dll
@@ -58,7 +60,7 @@ void Host::Initialize( String ^ modulePath )
             {
                 componentLoader->LoadComponent( component );
                 component->info = component->instance->GetInfo();
-                RegisterComponent( Path::GetFileNameWithoutExtension( component->dllName ), component->info );
+                RegisterComponent( Path::GetFileNameWithoutExtension( component->underscoredName ), component->info );
 
                 component->instance->Initialize( fb2kStaticServices_, fb2kUtils_ );
 
@@ -67,10 +69,12 @@ void Host::Initialize( String ^ modulePath )
             catch ( Exception ^ e )
             {
                 auto msg = gcnew String( "Error loading .NET component:\n" );
-                msg += "  component: " + component->dllName + "\n";
+                msg += "  component: " + component->underscoredName + "\n";
                 msg += "  error: " + e->Message;
                 DelayedLog( msg );
             }
+
+            DelayedLog( gcnew String( "Loaded `" + component->underscoredName + "`" ), true, false );
         }
 
         DelayedLog( gcnew String( ( DNET_NAME_WITH_VERSION ": components loaded in " + std::to_string( static_cast<uint32_t>( timer.query() * 1000 ) ) + "ms" ).c_str() ), false, false );
@@ -101,7 +105,7 @@ void Host::Start()
         catch ( Exception ^ e )
         {
             auto msg = gcnew String( "Error during .NET component startup:\n" );
-            msg += "  component: " + component->dllName + "\n";
+            msg += "  component: " + component->underscoredName + "\n";
             msg += "  error: " + e->Message;
             DelayedLog( msg );
         }
@@ -126,6 +130,11 @@ void Host::Shutdown()
 bool Host::IsInitialized()
 {
     return isInitialized_;
+}
+
+List<Component ^> ^ Host::GetComponents()
+{
+    return components_;
 }
 
 } // namespace Qwr::DotnetHost

@@ -9,9 +9,9 @@ namespace Qwr::DotnetHost
 ref struct Component
 {
     String ^ fullPath = nullptr;
-    String ^ dllName = nullptr;
+    String ^ underscoredName = nullptr;
     ComponentInfo ^ info = nullptr;
-    IComponent ^ instance = nullptr;
+    Qwr::ComponentInterface::IComponent ^ instance = nullptr;
 };
 
 } // namespace Qwr::DotnetHost

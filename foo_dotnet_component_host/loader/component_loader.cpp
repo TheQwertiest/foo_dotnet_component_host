@@ -35,7 +35,7 @@ List<Component ^> ^ ComponentLoader::GetComponentsInDir( System::String ^ dirNam
 
         auto component = gcnew Component();
         component->fullPath = componentDllPath;
-        component->dllName = Path::GetFileNameWithoutExtension( componentDllPath );
+        component->underscoredName = Path::GetFileNameWithoutExtension( componentDllPath );
         components->Add( component );
     }
 

@@ -10,12 +10,11 @@ using System.Windows.Forms;
 
 namespace fooTest
 {
-    public partial class Form1 : Form
+    public partial class Form1 : UserControl
     {
         public Form1()
         {
             InitializeComponent();
-            this.ClientSize = new System.Drawing.Size(501, 501);
         }
     }
 }
