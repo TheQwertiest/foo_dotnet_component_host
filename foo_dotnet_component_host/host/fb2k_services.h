@@ -1,3 +1,5 @@
+#pragma once
+
 using namespace System;
 using namespace Qwr::ComponentInterface;
 

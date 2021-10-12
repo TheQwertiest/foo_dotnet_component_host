@@ -100,6 +100,7 @@
   <ItemGroup>
     <ClInclude Include="component_defines.h" />
     <ClInclude Include="component_guids.h" />
+    <ClInclude Include="component_paths.h" />
     <ClInclude Include="convert\to_net.h" />
     <ClInclude Include="convert\to_native.h" />
     <ClInclude Include="fb2k\main_menu.h" />
@@ -107,6 +108,7 @@
     <ClInclude Include="fb2k\component_registration.h" />
     <ClInclude Include="fb2k\preferences_pages.h" />
     <ClInclude Include="host\component.h" />
+    <ClInclude Include="host\delayed_installation.h" />
     <ClInclude Include="host\fb2k_services.h" />
     <ClInclude Include="host\fb2k_controls.h" />
     <ClInclude Include="host\fb2k_utils.h" />
@@ -132,10 +134,10 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="utils\delayed_log.h" />
-    <ClInclude Include="utils\fb2k_paths.h" />
     <ClInclude Include="utils\menu_helpers.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="component_paths.cpp" />
     <ClCompile Include="convert\to_net.cpp" />
     <ClCompile Include="convert\to_native.cpp" />
     <ClCompile Include="fb2k\component_registration.cpp" />
@@ -144,6 +146,7 @@
     <ClCompile Include="fb2k\main_menu.cpp" />
     <ClCompile Include="fb2k\play_callback.cpp" />
     <ClCompile Include="fb2k\preferences_pages.cpp" />
+    <ClCompile Include="host\delayed_installation.cpp" />
     <ClCompile Include="host\fb2k_services.cpp" />
     <ClCompile Include="host\fb2k_controls.cpp" />
     <ClCompile Include="host\fb2k_utils.cpp" />
@@ -167,7 +170,6 @@
     <ClCompile Include="ui\ui_preferences.cpp" />
     <ClCompile Include="ui\ui_preferences_form.cpp" />
     <ClCompile Include="utils\delayed_log.cpp" />
-    <ClCompile Include="utils\fb2k_paths.cpp" />
     <ClCompile Include="utils\menu_helpers.cpp" />
   </ItemGroup>
   <ItemGroup>

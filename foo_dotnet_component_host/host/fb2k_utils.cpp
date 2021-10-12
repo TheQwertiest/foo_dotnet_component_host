@@ -5,7 +5,8 @@
 #include <convert/to_native.h>
 #include <convert/to_net.h>
 #include <host/host.h>
-#include <utils/fb2k_paths.h>
+
+#include <component_paths.h>
 
 using namespace System::Reflection;
 using namespace System::IO;
@@ -102,7 +103,7 @@ Drawing::Icon ^ Fb2kUtils::Fb2kIcon()
 
 String ^ Fb2kUtils::Fb2kPath()
 {
-    return Convert::ToNet::ToValue( Qwr::DotnetHost::Fb2kPath() ) + Path::DirectorySeparatorChar;
+    return Convert::ToNet::ToValue( Qwr::DotnetHost::Fb2kDir() ) + Path::DirectorySeparatorChar;
 }
 
 String ^ Fb2kUtils::Fb2kVersion()
@@ -130,7 +131,7 @@ bool Fb2kUtils::IsFb2kMinimized()
 
 String ^ Fb2kUtils::ProfilePath()
 {
-    return Convert::ToNet::ToValue( Qwr::DotnetHost::ProfilePath() ) + Path::DirectorySeparatorChar;
+    return Convert::ToNet::ToValue( Qwr::DotnetHost::ProfileDir() ) + Path::DirectorySeparatorChar;
 }
 
 void Fb2kUtils::ShowPopup( String ^ text, String ^ title )

@@ -20,9 +20,11 @@ public:
     virtual PreferencesPageState State();
     virtual IntPtr Handle();
 
+    IPreferencesPageCallback ^ Callback();
+
 private:
     PreferencesForm ^ _impl;
-    IPreferencesPageCallback ^ PreferencesCallback;
+    IPreferencesPageCallback ^ preferencesCallback_;
 };
 
 } // namespace Qwr::DotnetHost

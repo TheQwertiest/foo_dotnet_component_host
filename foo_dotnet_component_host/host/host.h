@@ -35,6 +35,7 @@ private:
     static Host ^ self_;
 
     bool isInitialized_ = false;
+    bool hasFailed_ = false;
 
     List<Component ^> ^ components_ = nullptr;
     Fb2kControls ^ fb2kControls_ = nullptr;

@@ -75,9 +75,6 @@
     <ClCompile Include="host\fb2k_utils.cpp">
       <Filter>host</Filter>
     </ClCompile>
-    <ClCompile Include="utils\fb2k_paths.cpp">
-      <Filter>utils</Filter>
-    </ClCompile>
     <ClCompile Include="utils\delayed_log.cpp">
       <Filter>utils</Filter>
     </ClCompile>
@@ -90,6 +87,10 @@
     <ClCompile Include="ui\ui_custom_controls.cpp">
       <Filter>ui</Filter>
     </ClCompile>
+    <ClCompile Include="host\delayed_installation.cpp">
+      <Filter>host</Filter>
+    </ClCompile>
+    <ClCompile Include="component_paths.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="component_defines.h" />
@@ -166,9 +167,6 @@
     <ClInclude Include="host\fb2k_utils.h">
       <Filter>host</Filter>
     </ClInclude>
-    <ClInclude Include="utils\fb2k_paths.h">
-      <Filter>utils</Filter>
-    </ClInclude>
     <ClInclude Include="resources\resource.h">
       <Filter>resource</Filter>
     </ClInclude>
@@ -188,6 +186,10 @@
     <ClInclude Include="ui\ui_custom_controls.h">
       <Filter>ui</Filter>
     </ClInclude>
+    <ClInclude Include="host\delayed_installation.h">
+      <Filter>host</Filter>
+    </ClInclude>
+    <ClInclude Include="component_paths.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />

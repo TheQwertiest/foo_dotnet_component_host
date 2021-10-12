@@ -8,21 +8,20 @@
 namespace Qwr::DotnetHost
 {
 
-Qwr::ComponentInterface::PreferencesPageInfo Preferences::GetInfo()
+ComponentInterface::PreferencesPageInfo Preferences::GetInfo()
 {
     PreferencesPageInfo info;
     info.Name = DNET_NAME;
     info.Guid = Convert::ToNet::ToValue( Guids::ui_preferences );
     info.ParentGuid = Convert::ToNet::ToValue( preferences_page::guid_components );
-    // TODO: fill properly
-    info.HelpUrl = nullptr;
+    info.HelpUrl = "https://theqwertiest.github.io/foo_dotnet_component_host/";
 
     return info;
 }
 
 void Preferences::Initialize( IntPtr parentHandle, IPreferencesPageCallback ^ callback )
 {
-    PreferencesCallback = callback;
+    preferencesCallback_ = callback;
 
     _impl = gcnew PreferencesForm( this );
     SetParent( (HWND)_impl->Handle.ToPointer(), (HWND)parentHandle.ToPointer() );
@@ -36,22 +35,33 @@ void Preferences::Reset()
 
 void Preferences::Apply()
 {
+    assert( _impl );
+
+    _impl->Apply();
 }
 
 PreferencesPageState Preferences::State()
 {
+    assert( _impl );
+
     PreferencesPageState state = PreferencesPageState::HasNoChanges;
-    if ( _impl->HasNewComponents() )
+    if ( _impl->HasComponentChanges() )
     {
-        state = PreferencesPageState::NeedsFb2kRestart;
+        state = PreferencesPageState::HasChanged | PreferencesPageState::NeedsFb2kRestart;
     }
 
     return state;
 }
 
-System::IntPtr Preferences::Handle()
+IntPtr Preferences::Handle()
 {
+    assert( _impl );
     return _impl->Handle;
+}
+
+IPreferencesPageCallback ^ Preferences::Callback()
+{
+    return preferencesCallback_;
 }
 
 } // namespace Qwr::DotnetHost

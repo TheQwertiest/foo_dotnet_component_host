@@ -19,15 +19,19 @@ ref class PreferencesForm : public System::Windows::Forms::UserControl
 public:
     PreferencesForm( Preferences ^ parent );
 
-    bool HasNewComponents();
+    bool HasComponentChanges();
+    void Apply();
 
 protected:
     ~PreferencesForm();
 
 private:
     void Form_HandleCreated( Object ^ sender, EventArgs ^ e );
-    void ColumnClick_EventHandler( Object ^ o, ColumnClickEventArgs ^ e );
-    void ResizeListView( ListView ^ lv );
+    void Form_HandleDestroyed( Object ^ sender, EventArgs ^ e );
+    void ComponentList_ColumnClick_EventHandler( Object ^ o, ColumnClickEventArgs ^ e );
+    void ComponentList_DragEnter_EventHandler( Object ^ sender, DragEventArgs ^ e );
+    void ComponentList_DragDrop_EventHandler( Object ^ sender, DragEventArgs ^ e );
+    void AdjustSizeComponentList( ListView ^ lv );
 
 private:
     /// <summary>
@@ -44,7 +48,10 @@ private:
     System::Windows::Forms::ColumnHeader ^ moduleColumn;
 
 private:
-    bool hasNewComponents_ = false;
+    Preferences ^ parent_;
     ColumnSorter ^ columnSorter_;
+
+    bool hasComponentChanges_ = false;
+    bool changesApplied_ = false;
 };
 } // namespace Qwr::DotnetHost

@@ -2,7 +2,9 @@
 
 #include "host.h"
 
+#include <convert/to_net.h>
 #include <fb2k/component_registration.h>
+#include <host/delayed_installation.h>
 #include <host/fb2k_controls.h>
 #include <host/fb2k_services.h>
 #include <host/fb2k_utils.h>
@@ -10,6 +12,8 @@
 #include <net_objects/fb_console.h>
 #include <ui/ui_preferences.h>
 #include <utils/delayed_log.h>
+
+#include <component_paths.h>
 
 using namespace System::IO;
 
@@ -45,15 +49,14 @@ void Host::Initialize( String ^ modulePath )
         components_ = gcnew List<Component ^>;
         fb2kStaticServices_->RegisterPreferencesPage( Preferences::GetInfo(), Preferences::typeid );
 
+        ProcessDelayedComponents();
+
         auto componentLoader = gcnew ComponentLoader();
 
         pfc::hires_timer timer;
         timer.start();
 
-        // can't use fb2k method to retrieve profile dir here, because it's not working yet.
-        // hence we have to divine it: profile/user-components/current_module_dir/current_module.dll
-        auto pluginsDir = Path::Combine( Path::GetDirectoryName( Path::GetDirectoryName( Path::GetDirectoryName( modulePath ) ) ), DNET_UNDERSCORE_NAME, "components" );
-        auto components = componentLoader->GetComponentsInDir( pluginsDir );
+        auto components = componentLoader->GetComponentsInDir( Convert::ToNet::ToValue( NetComponentsDir() ) );
         for each ( auto component in components )
         {
             try

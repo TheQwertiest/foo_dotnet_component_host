@@ -2,9 +2,17 @@
 
 #include "ui_preferences_form.h"
 
+#include <convert/to_native.h>
+#include <convert/to_net.h>
+#include <host/delayed_installation.h>
 #include <host/host.h>
 #include <ui/ui_custom_controls.h>
 #include <ui/ui_preferences.h>
+
+#include <component_paths.h>
+
+using namespace System::IO;
+using namespace System::IO::Compression;
 
 namespace
 {
@@ -63,9 +71,6 @@ public:
     int sortColumn = 0;
     SortOrder sortOrder = SortOrder::None;
 
-private:
-    System::Collections::Comparer ^ listViewItemComparer = gcnew System::Collections::Comparer( Globalization::CultureInfo::CurrentUICulture );
-
 public:
     ColumnSorter()
     {
@@ -98,6 +103,9 @@ public:
             return 0;
         }
     }
+
+private:
+    System::Collections::Comparer ^ listViewItemComparer = gcnew System::Collections::Comparer( Globalization::CultureInfo::CurrentUICulture );
 };
 
 private
@@ -109,8 +117,14 @@ public:
 public:
     ComponentListEntry( Component ^ component )
         : ListViewItem( Generate( component ) )
+        , component( component )
     {
-        this->component = component;
+    }
+
+    void MarkAsToBeUpdated()
+    {
+        SubItems[0]->Text = "(unknown - please apply changes to load)";
+        SubItems[1]->Text = "(unknown)";
     }
 
 private:
@@ -125,13 +139,17 @@ namespace Qwr::DotnetHost
 {
 
 PreferencesForm::PreferencesForm( Preferences ^ parent )
+    : parent_( parent )
 {
     InitializeComponent();
 
     columnSorter_ = gcnew ColumnSorter();
     componentList->ListViewItemSorter = columnSorter_;
-    componentList->ColumnClick += gcnew ColumnClickEventHandler( this, &PreferencesForm::ColumnClick_EventHandler );
+    componentList->ColumnClick += gcnew ColumnClickEventHandler( this, &PreferencesForm::ComponentList_ColumnClick_EventHandler );
+    componentList->DragEnter += gcnew DragEventHandler( this, &PreferencesForm::ComponentList_DragEnter_EventHandler );
+    componentList->DragDrop += gcnew DragEventHandler( this, &PreferencesForm::ComponentList_DragDrop_EventHandler );
     this->HandleCreated += gcnew EventHandler( this, &PreferencesForm::Form_HandleCreated );
+    this->HandleDestroyed += gcnew EventHandler( this, &PreferencesForm::Form_HandleDestroyed );
 }
 
 PreferencesForm::~PreferencesForm()
@@ -142,16 +160,21 @@ PreferencesForm::~PreferencesForm()
     }
 }
 
-bool PreferencesForm::HasNewComponents()
+bool PreferencesForm::HasComponentChanges()
 {
-    return hasNewComponents_;
+    return hasComponentChanges_;
+}
+
+void PreferencesForm::Apply()
+{
+    changesApplied_ = true;
 }
 
 void PreferencesForm::Form_HandleCreated( Object ^ sender, EventArgs ^ e )
 {
     auto components = Host::GetInstance()->GetComponents();
 
-    ResizeListView( componentList );
+    AdjustSizeComponentList( componentList );
 
     componentList->BeginUpdate();
     for each ( auto component in components )
@@ -160,13 +183,21 @@ void PreferencesForm::Form_HandleCreated( Object ^ sender, EventArgs ^ e )
         componentList->Items->Add( item );
     }
 
-    ResizeListView( componentList );
-    ColumnClick_EventHandler( componentList, gcnew ColumnClickEventArgs( 0 ) );
+    AdjustSizeComponentList( componentList );
+    ComponentList_ColumnClick_EventHandler( componentList, gcnew ColumnClickEventArgs( 0 ) );
 
     componentList->EndUpdate();
 }
 
-void PreferencesForm::ColumnClick_EventHandler( Object ^ sender, ColumnClickEventArgs ^ e )
+void PreferencesForm::Form_HandleDestroyed( Object ^ sender, EventArgs ^ e )
+{
+    if ( !changesApplied_ )
+    {
+        ClearAllComponentDelayedStatuses();
+    }
+}
+
+void PreferencesForm::ComponentList_ColumnClick_EventHandler( Object ^ sender, ColumnClickEventArgs ^ e )
 {
     if ( e->Column == columnSorter_->sortColumn )
     {
@@ -189,7 +220,103 @@ void PreferencesForm::ColumnClick_EventHandler( Object ^ sender, ColumnClickEven
     SetSortIcon( componentList, columnSorter_->sortColumn, columnSorter_->sortOrder );
 }
 
-void PreferencesForm::ResizeListView( ListView ^ lv )
+void PreferencesForm::ComponentList_DragEnter_EventHandler( Object ^ sender, DragEventArgs ^ e )
+{
+    e->Effect = DragDropEffects::None;
+    if ( !e->Data->GetDataPresent( DataFormats::FileDrop ) )
+    {
+        return;
+    }
+
+    auto files = ( array<String ^> ^ ) e->Data->GetData( DataFormats::FileDrop );
+    for each ( auto f in files )
+    {
+        if ( f->EndsWith( ".zip" ) || f->EndsWith( ".net-component" ) )
+        {
+            e->Effect = DragDropEffects::Copy;
+            return;
+        }
+    }
+}
+
+void PreferencesForm::ComponentList_DragDrop_EventHandler( Object ^ sender, DragEventArgs ^ e )
+{
+    auto tmpUnpackDir = Convert::ToNet::ToValue( TempDir_ComponentUnpack() );
+
+    auto componentsToInstall = gcnew List<String ^>();
+    auto skippedFiles = gcnew HashSet<String ^>();
+
+    auto files = ( array<String ^> ^ ) e->Data->GetData( DataFormats::FileDrop );
+    for each ( auto f in files )
+    {
+        if ( !f->EndsWith( ".zip" ) && !f->EndsWith( ".net-component" ) )
+        {
+            skippedFiles->Add( f );
+            continue;
+        }
+
+        if ( Directory::Exists( tmpUnpackDir ) )
+        {
+            Directory::Delete( tmpUnpackDir, true );
+        }
+        Directory::CreateDirectory( tmpUnpackDir );
+        ZipFile::ExtractToDirectory( f, tmpUnpackDir );
+
+        auto componentFiles = Directory::GetFiles( tmpUnpackDir, "dotnet_*.dll", SearchOption::AllDirectories );
+        if ( componentFiles->Length == 0 )
+        {
+            skippedFiles->Add( f );
+            continue;
+        }
+
+        auto componentFile = componentFiles[0];
+        auto componentDir = Path::GetDirectoryName( componentFile );
+        auto componentName = Path::GetFileNameWithoutExtension( componentFile );
+
+        MarkComponentAsToBeInstalled( componentName, componentDir );
+        componentsToInstall->Add( componentName );
+    }
+
+    if ( componentsToInstall->Count > 0 )
+    {
+        hasComponentChanges_ = true;
+        parent_->Callback()->OnStateChanged();
+    }
+
+    for each ( ComponentListEntry ^ item in componentList->Items )
+    {
+        auto componentName = item->component->underscoredName;
+        if ( componentsToInstall->Contains( componentName ) )
+        {
+            item->MarkAsToBeUpdated();
+            componentsToInstall->Remove( componentName );
+        }
+    }
+
+    for each ( auto componentName in componentsToInstall )
+    {
+        auto componentData = gcnew Qwr::DotnetHost::Component();
+        componentData->underscoredName = componentName;
+
+        auto item = gcnew ComponentListEntry( componentData );
+        item->MarkAsToBeUpdated();
+        componentList->Items->Add( item );
+    }
+
+    String ^ errorMsg = gcnew String( "" );
+    for each ( auto componentName in skippedFiles )
+    {
+        errorMsg += "Could not load component \"" + componentName + "\": Unsupported format or corrupted file\n";
+    }
+    if ( !String::IsNullOrEmpty( errorMsg ) )
+    {
+        popup_message::g_show( Convert::ToNative::ToValue( errorMsg ).c_str(), DNET_UNDERSCORE_NAME );
+    }
+
+    AdjustSizeComponentList( componentList );
+}
+
+void PreferencesForm::AdjustSizeComponentList( ListView ^ lv )
 {
     if ( lv == nullptr || lv->Columns->Count < 2 )
     {
