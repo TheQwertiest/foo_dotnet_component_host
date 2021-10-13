@@ -41,6 +41,8 @@ void Host::Initialize( String ^ modulePath )
 
     try
     {
+        System::Windows::Forms::Application::SetCompatibleTextRenderingDefault( false );
+
         fb2kControls_ = gcnew Fb2kControls();
         fb2kStaticServices_ = gcnew Fb2kStaticServices();
         fb2kDynamicServices_ = gcnew Fb2kDynamicServices();

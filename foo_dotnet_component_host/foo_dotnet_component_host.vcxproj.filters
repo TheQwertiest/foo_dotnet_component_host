@@ -84,9 +84,6 @@
     <ClCompile Include="ui\ui_preferences.cpp">
       <Filter>ui</Filter>
     </ClCompile>
-    <ClCompile Include="ui\ui_custom_controls.cpp">
-      <Filter>ui</Filter>
-    </ClCompile>
     <ClCompile Include="host\delayed_installation.cpp">
       <Filter>host</Filter>
     </ClCompile>
@@ -181,9 +178,6 @@
     </ClInclude>
     <ClInclude Include="component_guids.h" />
     <ClInclude Include="ui\ui_preferences.h">
-      <Filter>ui</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\ui_custom_controls.h">
       <Filter>ui</Filter>
     </ClInclude>
     <ClInclude Include="host\delayed_installation.h">

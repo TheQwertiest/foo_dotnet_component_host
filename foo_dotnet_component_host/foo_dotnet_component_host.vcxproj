@@ -128,7 +128,6 @@
     <ClInclude Include="net_utils\exception_generator.h" />
     <ClInclude Include="resources\resource.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="ui\ui_custom_controls.h" />
     <ClInclude Include="ui\ui_preferences.h" />
     <ClInclude Include="ui\ui_preferences_form.h">
       <FileType>CppForm</FileType>
@@ -166,7 +165,6 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ui\ui_custom_controls.cpp" />
     <ClCompile Include="ui\ui_preferences.cpp" />
     <ClCompile Include="ui\ui_preferences_form.cpp" />
     <ClCompile Include="utils\delayed_log.cpp" />

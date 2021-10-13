@@ -108,6 +108,6 @@ namespace fooTest
 
         public PreferencesPageState State() { return 0; }
 
-        private Form impl;
+        private UserControl impl;
     }
 }

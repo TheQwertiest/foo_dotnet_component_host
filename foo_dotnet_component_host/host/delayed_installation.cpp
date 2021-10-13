@@ -100,10 +100,13 @@ void ProcessDelayedComponents()
         }
         if ( Directory::Exists( toInstallDir ) )
         {
-            for each ( auto f in Directory::EnumerateFiles( toInstallDir ) )
+            for each ( auto f in Directory::EnumerateDirectories( toInstallDir ) )
             {
                 auto componentDir = Path::Combine( Convert::ToNet::ToValue( NetComponentsDir() ), Path::GetFileNameWithoutExtension( f ) );
-                Directory::Delete( componentDir, true );
+                if ( Directory::Exists( componentDir ) )
+                {
+                    Directory::Delete( componentDir, true );
+                }
                 Directory::CreateDirectory( Path::GetDirectoryName( componentDir ) );
                 Directory::Move( f, componentDir );
             }
