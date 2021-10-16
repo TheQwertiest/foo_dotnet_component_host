@@ -26,8 +26,10 @@ def zipdir(zip_file, path, arc_path=None):
 def pack(is_debug = False):
     cur_dir = Path(__file__).parent.absolute()
     root_dir = cur_dir.parent
-    result_machine_dir = root_dir/"_result"/("x86_Debug" if is_debug else "x86_Release")
+    result_machine_dir = root_dir/"_result"/("Win32_Debug" if is_debug else "Win32_Release")
     assert(result_machine_dir.exists() and result_machine_dir.is_dir())
+    result_any_machine_dir = root_dir/"_result"/("AnyCPU_Debug" if is_debug else "AnyCPU_Release")
+    assert(result_any_machine_dir.exists() and result_any_machine_dir.is_dir())
 
     output_dir = result_machine_dir
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -42,15 +44,19 @@ def pack(is_debug = False):
         
         files_to_pack = [
             'Ijwhost.dll',
-            'dotnet_component_interface.deps.json',
-            'dotnet_component_interface.dll',
             'foo_dotnet_component_host.deps.json',
             'foo_dotnet_component_host.dll',
             'foo_dotnet_component_host.runtimeconfig.json'
         ]
+        files_to_pack_any = [
+            'dotnet_component_interface.deps.json',
+            'dotnet_component_interface.dll'
+        ]
         
         for f in files_to_pack:
             z.write(*path_basename_tuple(result_machine_dir/'bin'/f))
+        for f in files_to_pack_any:
+            z.write(*path_basename_tuple(result_any_machine_dir/'bin'/f))
 
     print(f"Generated file: {component_zip}")
 
@@ -61,7 +67,7 @@ def pack(is_debug = False):
             pdb_zip.unlink()
 
         with ZipFile(pdb_zip, "w", zipfile.ZIP_DEFLATED) as z:
-            z.write(*path_basename_tuple(result_machine_dir/"bin"/"dotnet_component_interface.pdb"))
+            z.write(*path_basename_tuple(result_any_machine_dir/"bin"/"dotnet_component_interface.pdb"))
             z.write(*path_basename_tuple(result_machine_dir/"dbginfo"/"foo_dotnet_component_host.pdb"))
 
         print(f"Generated file: {pdb_zip}")
