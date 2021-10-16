@@ -7,6 +7,6 @@ Visit [component homepage](https://theqwertiest.github.io/foo_dotnet_component_h
 
 [changelog]: CHANGELOG.md
 [version_badge]: https://img.shields.io/github/release/theqwertiest/foo_dotnet_component_host.svg
-[appveyor_badge]: https://ci.appveyor.com/api/projects/status/4fg787ijr73u7mxc/branch/master?svg=true
-[codacy_badge]: https://api.codacy.com/project/badge/Grade/19c686bcf26d46e6a639bdece347ae3d
+[appveyor_badge]: https://ci.appveyor.com/api/projects/status/gq3d890wecgf2hfu/branch/master?svg=true
+[codacy_badge]: https://app.codacy.com/project/badge/Grade/d759ad76bb0d48b88ad0d5a397a4a7ed
 [codefactor_badge]: https://www.codefactor.io/repository/github/theqwertiest/foo_dotnet_component_host/badge/master
