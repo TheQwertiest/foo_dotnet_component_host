@@ -36,7 +36,9 @@ private:
     void ComponentList_DragDrop_EventHandler( Object ^ sender, DragEventArgs ^ e );
     void ComponentListMenu_About_EventHandler( Object ^ sender, EventArgs ^ e );
     void ComponentListMenu_Remove_EventHandler( Object ^ sender, EventArgs ^ e );
+    void InstallButton_Click_EventHandler( Object ^ sender, EventArgs ^ e );
     void AdjustSizeComponentList( ListView ^ lv );
+    void InstallComponents( array<String ^> ^ files );
 
 private:
     /// <summary>
@@ -48,12 +50,14 @@ private:
 private:
     System::ComponentModel::Container ^ components;
     System::Windows::Forms::TableLayoutPanel ^ topTableLayout;
+    System::Windows::Forms::TableLayoutPanel ^ bottomTableLayout;
     System::Windows::Forms::ListView ^ componentList;
     System::Windows::Forms::ColumnHeader ^ nameColumn;
     System::Windows::Forms::ColumnHeader ^ versionColumn;
     System::Windows::Forms::ColumnHeader ^ moduleColumn;
     System::Windows::Forms::Label ^ leftLabel;
     System::Windows::Forms::Label ^ rightLabel;
+    System::Windows::Forms::Button ^ installButton;
 
 private:
     Preferences ^ parent_ = nullptr;

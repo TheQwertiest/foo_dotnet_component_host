@@ -156,6 +156,7 @@ PreferencesForm::PreferencesForm( Preferences ^ parent )
     componentList->ColumnClick += gcnew ColumnClickEventHandler( this, &PreferencesForm::ComponentList_ColumnClick_EventHandler );
     componentList->DragEnter += gcnew DragEventHandler( this, &PreferencesForm::ComponentList_DragEnter_EventHandler );
     componentList->DragDrop += gcnew DragEventHandler( this, &PreferencesForm::ComponentList_DragDrop_EventHandler );
+    installButton->Click += gcnew EventHandler( this, &PreferencesForm::InstallButton_Click_EventHandler );
     this->HandleCreated += gcnew EventHandler( this, &PreferencesForm::Form_HandleCreated );
     this->HandleDestroyed += gcnew EventHandler( this, &PreferencesForm::Form_HandleDestroyed );
 }
@@ -295,7 +296,7 @@ void PreferencesForm::ComponentList_DragEnter_EventHandler( Object ^ sender, Dra
     auto files = ( array<String ^> ^ ) e->Data->GetData( DataFormats::FileDrop );
     for each ( auto f in files )
     {
-        if ( f->EndsWith( ".zip" ) || f->EndsWith( ".net-component" ) )
+        if ( ( f->StartsWith( "dotnet_" ) && f->EndsWith( ".zip" ) ) || f->EndsWith( ".net-component" ) )
         {
             e->Effect = DragDropEffects::Copy;
             return;
@@ -305,15 +306,87 @@ void PreferencesForm::ComponentList_DragEnter_EventHandler( Object ^ sender, Dra
 
 void PreferencesForm::ComponentList_DragDrop_EventHandler( Object ^ sender, DragEventArgs ^ e )
 {
+    auto files = ( array<String ^> ^ ) e->Data->GetData( DataFormats::FileDrop );
+    InstallComponents( files );
+}
+
+void PreferencesForm::ComponentListMenu_About_EventHandler( Object ^ sender, EventArgs ^ e )
+{
+    assert( focusedItem_ );
+    popup_message::g_show( Convert::ToNative::ToValue( focusedItem_->component->info->Description ).c_str(),
+                           Convert::ToNative::ToValue( "About " + focusedItem_->component->info->Name ).c_str() );
+}
+
+void PreferencesForm::ComponentListMenu_Remove_EventHandler( Object ^ sender, EventArgs ^ e )
+{
+    assert( focusedItem_ );
+
+    hasComponentChanges_ = true;
+    parent_->Callback()->OnStateChanged();
+
+    MarkComponentAsToBeRemoved( focusedItem_->component->underscoredName );
+    componentList->Items->Remove( focusedItem_ );
+}
+
+void PreferencesForm::InstallButton_Click_EventHandler( Object ^ sender, EventArgs ^ e )
+{
+    auto openFileDialog = gcnew OpenFileDialog();
+    openFileDialog->Filter = ".NET components (dotnet_*.zip;*.net-component)|dotnet_*.zip;*.net-component";
+    // `My Computer` dir
+    openFileDialog->InitialDirectory = "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
+    openFileDialog->RestoreDirectory = true;
+    openFileDialog->Title = "Install Component";
+
+    if ( openFileDialog->ShowDialog() == DialogResult::OK )
+    {
+        InstallComponents( gcnew array<String ^>{ openFileDialog->FileName } );
+    }
+}
+
+void PreferencesForm::AdjustSizeComponentList( ListView ^ lv )
+{
+    if ( lv == nullptr || lv->Columns->Count < 2 )
+    {
+        return;
+    }
+
+    const auto versionColumnSize = 75;
+
+    lv->Columns[0]->Width = CalculateColumnWidth( lv->Columns[0], lv->Font ) + 10;
+    lv->Columns[1]->Width = versionColumnSize + 10;
+    lv->Columns[2]->Width = CalculateColumnWidth( lv->Columns[2], lv->Font ) + 10;
+
+    bool scrollBarDisplayed = ( lv->Items->Count > 0 ) && ( lv->ClientSize.Height < ( lv->Items->Count + 1 ) * lv->Items[0]->Bounds.Height );
+    auto scrollBarWidth = ( scrollBarDisplayed ? SystemInformation::VerticalScrollBarWidth : 0 );
+    auto emptySpaceWidth = lv->ClientSize.Width - lv->Columns[0]->Width - lv->Columns[1]->Width - lv->Columns[2]->Width;
+
+    if ( emptySpaceWidth > 0 )
+    {
+        auto additionalSpace = ( emptySpaceWidth - scrollBarWidth ) / 2;
+        if ( emptySpaceWidth > 100 )
+        {
+            additionalSpace /= 2;
+        }
+
+        lv->Columns[0]->Width += additionalSpace;
+        lv->Columns[1]->Width += additionalSpace;
+    }
+    else if ( ( lv->ClientSize.Width - lv->Columns[1]->Width - lv->Columns[2]->Width ) > 15 )
+    {
+        lv->Columns[2]->Width = lv->ClientSize.Width - lv->Columns[0]->Width - lv->Columns[1]->Width - scrollBarWidth;
+    }
+}
+
+void PreferencesForm::InstallComponents( array<String ^> ^ files )
+{
     auto tmpUnpackDir = Convert::ToNet::ToValue( TempDir_ComponentUnpack() );
 
     auto componentsToInstall = gcnew List<String ^>();
     auto skippedFiles = gcnew HashSet<String ^>();
 
-    auto files = ( array<String ^> ^ ) e->Data->GetData( DataFormats::FileDrop );
     for each ( auto f in files )
     {
-        if ( !f->EndsWith( ".zip" ) && !f->EndsWith( ".net-component" ) )
+        if ( !( ( f->StartsWith( "dotnet_" ) && f->EndsWith( ".zip" ) ) || f->EndsWith( ".net-component" ) ) )
         {
             skippedFiles->Add( f );
             continue;
@@ -367,7 +440,7 @@ void PreferencesForm::ComponentList_DragDrop_EventHandler( Object ^ sender, Drag
         componentList->Items->Add( item );
     }
 
-    String ^ errorMsg = gcnew String( "" );
+    auto errorMsg = gcnew String( "" );
     for each ( auto componentName in skippedFiles )
     {
         errorMsg += "Could not load component \"" + componentName + "\": Unsupported format or corrupted file\n";
@@ -380,68 +453,19 @@ void PreferencesForm::ComponentList_DragDrop_EventHandler( Object ^ sender, Drag
     AdjustSizeComponentList( componentList );
 }
 
-void PreferencesForm::ComponentListMenu_About_EventHandler( Object ^ sender, EventArgs ^ e )
-{
-    assert( focusedItem_ );
-    popup_message::g_show( Convert::ToNative::ToValue( focusedItem_->component->info->Description ).c_str(),
-                           Convert::ToNative::ToValue( "About " + focusedItem_->component->info->Name ).c_str() );
-}
-
-void PreferencesForm::ComponentListMenu_Remove_EventHandler( Object ^ sender, EventArgs ^ e )
-{
-    assert( focusedItem_ );
-
-    hasComponentChanges_ = true;
-    parent_->Callback()->OnStateChanged();
-
-    MarkComponentAsToBeRemoved( focusedItem_->component->underscoredName );
-    componentList->Items->Remove( focusedItem_ );
-}
-
-void PreferencesForm::AdjustSizeComponentList( ListView ^ lv )
-{
-    if ( lv == nullptr || lv->Columns->Count < 2 )
-    {
-        return;
-    }
-
-    const auto versionColumnSize = 75;
-
-    lv->Columns[0]->Width = CalculateColumnWidth( lv->Columns[0], lv->Font ) + 10;
-    lv->Columns[1]->Width = versionColumnSize + 10;
-    lv->Columns[2]->Width = CalculateColumnWidth( lv->Columns[2], lv->Font ) + 10;
-
-    bool scrollBarDisplayed = ( lv->Items->Count > 0 ) && ( lv->ClientSize.Height < ( lv->Items->Count + 1 ) * lv->Items[0]->Bounds.Height );
-    auto scrollBarWidth = ( scrollBarDisplayed ? SystemInformation::VerticalScrollBarWidth : 0 );
-    auto emptySpaceWidth = lv->ClientSize.Width - lv->Columns[0]->Width - lv->Columns[1]->Width - lv->Columns[2]->Width;
-
-    if ( emptySpaceWidth > 0 )
-    {
-        auto additionalSpace = ( emptySpaceWidth - scrollBarWidth ) / 2;
-        if ( emptySpaceWidth > 100 )
-        {
-            additionalSpace /= 2;
-        }
-
-        lv->Columns[0]->Width += additionalSpace;
-        lv->Columns[1]->Width += additionalSpace;
-    }
-    else if ( ( lv->ClientSize.Width - lv->Columns[1]->Width - lv->Columns[2]->Width ) > 15 )
-    {
-        lv->Columns[2]->Width = lv->ClientSize.Width - lv->Columns[0]->Width - lv->Columns[1]->Width - scrollBarWidth;
-    }
-}
-
 void PreferencesForm::InitializeComponent( void )
 {
     this->topTableLayout = gcnew System::Windows::Forms::TableLayoutPanel();
+    this->bottomTableLayout = gcnew System::Windows::Forms::TableLayoutPanel();
     this->componentList = gcnew System::Windows::Forms::ListView();
     this->nameColumn = gcnew System::Windows::Forms::ColumnHeader();
     this->versionColumn = gcnew System::Windows::Forms::ColumnHeader();
     this->moduleColumn = gcnew System::Windows::Forms::ColumnHeader();
     this->leftLabel = gcnew System::Windows::Forms::Label();
     this->rightLabel = gcnew System::Windows::Forms::Label();
+    this->installButton = gcnew System::Windows::Forms::Button();
     this->topTableLayout->SuspendLayout();
+    this->bottomTableLayout->SuspendLayout();
     this->SuspendLayout();
 
     //
@@ -457,11 +481,26 @@ void PreferencesForm::InitializeComponent( void )
     this->topTableLayout->Location = System::Drawing::Point( 0, 0 );
     this->topTableLayout->Margin = System::Windows::Forms::Padding( 0 );
     this->topTableLayout->Name = "topTableLayout";
-    this->topTableLayout->Padding.All = 10;
     this->topTableLayout->RowCount = 1;
     this->topTableLayout->RowStyles->Add( gcnew System::Windows::Forms::RowStyle() );
     this->topTableLayout->Size = System::Drawing::Size( 584, 45 );
     this->topTableLayout->TabIndex = 4;
+    //
+    // bottomTableLayout
+    //
+    this->bottomTableLayout->AutoSize = true;
+    this->bottomTableLayout->ColumnCount = 1;
+    this->bottomTableLayout->ColumnStyles->Add( gcnew System::Windows::Forms::ColumnStyle() );
+    this->bottomTableLayout->Controls->Add( this->installButton, 0, 0 );
+    this->bottomTableLayout->Dock = System::Windows::Forms::DockStyle::Bottom;
+    this->bottomTableLayout->Location = System::Drawing::Point( 0, 478 );
+    this->bottomTableLayout->Margin = System::Windows::Forms::Padding( 0 );
+    this->bottomTableLayout->Name = "bottomTableLayout";
+    this->bottomTableLayout->Padding = System::Windows::Forms::Padding( 0 );
+    this->bottomTableLayout->RowCount = 1;
+    this->bottomTableLayout->RowStyles->Add( gcnew System::Windows::Forms::RowStyle() );
+    this->bottomTableLayout->Size = System::Drawing::Size( 584, 45 );
+    this->bottomTableLayout->TabIndex = 4;
     //
     // componentList
     //
@@ -477,7 +516,6 @@ void PreferencesForm::InitializeComponent( void )
     this->componentList->Margin.Top = 5;
     this->componentList->MultiSelect = false;
     this->componentList->Name = "componentList";
-    this->componentList->Padding.All = 20;
     this->componentList->Padding.Top = 5;
     this->componentList->Size = System::Drawing::Size( 498, 420 );
     this->componentList->TabIndex = 1;
@@ -525,17 +563,32 @@ void PreferencesForm::InitializeComponent( void )
     this->rightLabel->Text = "Right-click a component for additional options.";
     this->rightLabel->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
     //
+    // installButton
+    //
+    this->installButton->Anchor = ( System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right );
+    this->installButton->Location = System::Drawing::Point( 509, 71 );
+    this->installButton->Margin = System::Windows::Forms::Padding( 0 );
+    this->installButton->Name = "installButton";
+    this->installButton->Padding = System::Windows::Forms::Padding( 0 );
+    this->installButton->Size = System::Drawing::Size( 84, 30 );
+    this->installButton->TabIndex = 6;
+    this->installButton->Text = "Install...";
+    this->installButton->UseVisualStyleBackColor = true;
+    //
     // Form1
     //
     this->AutoScaleDimensions = System::Drawing::SizeF( 7, 15 );
     this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
     this->Controls->Add( this->componentList );
     this->Controls->Add( this->topTableLayout );
+    this->Controls->Add( this->bottomTableLayout );
     this->Margin.All = 0;
     this->Name = "Form1";
     this->Size = System::Drawing::Size( 584, 578 );
     this->topTableLayout->ResumeLayout( false );
     this->topTableLayout->PerformLayout();
+    this->bottomTableLayout->ResumeLayout( false );
+    this->bottomTableLayout->PerformLayout();
     this->ResumeLayout( false );
     this->PerformLayout();
 }
