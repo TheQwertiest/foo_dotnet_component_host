@@ -66,21 +66,21 @@ def setup( skip_submodules_download,
         output_dir=root_dir/'_result'/'AllPlatforms'/'generated',
         component_prefix='DNET'
     )
-    # call_decorator('SourceLink configuration file generation'
-    # )(
-    #     load_module(scripts_path/'generate_source_link_config.py').generate_config_custom
-    # )(
-    #     repo_dir=root_dir,
-    #     output_dir=root_dir/'_result'/'AllPlatforms'/'generated',
-    #     repo='theqwertiest/foo_spider_monkey_panel'
-    # )
-    # call_decorator('3rd-party notices generation'
-    # )(
-    #     load_module(scripts_path/'generate_third_party.py').generate
-    # )(
-    #     root_dir=root_dir,
-    #     component_name='Spider Monkey Panel'
-    # )
+    call_decorator('SourceLink configuration file generation'
+    )(
+        load_module(scripts_path/'generate_source_link_config.py').generate_config_custom
+    )(
+        repo_dir=root_dir,
+        output_dir=root_dir/'_result'/'AllPlatforms'/'generated',
+        repo='theqwertiest/foo_dotnet_component_host'
+    )
+    call_decorator('3rd-party notices generation'
+    )(
+        load_module(scripts_path/'generate_third_party.py').generate
+    )(
+        root_dir=root_dir,
+        component_name='Spider Monkey Panel'
+    )
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Setup project')

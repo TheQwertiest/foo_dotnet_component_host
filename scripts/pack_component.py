@@ -26,7 +26,7 @@ def zipdir(zip_file, path, arc_path=None):
 def pack(is_debug = False):
     cur_dir = Path(__file__).parent.absolute()
     root_dir = cur_dir.parent
-    result_machine_dir = root_dir/"_result"/("Win32_Debug" if is_debug else "Win32_Release")
+    result_machine_dir = root_dir/"_result"/("x86_Debug" if is_debug else "x86_Release")
     assert(result_machine_dir.exists() and result_machine_dir.is_dir())
 
     output_dir = result_machine_dir
@@ -36,8 +36,9 @@ def pack(is_debug = False):
     component_zip.unlink(missing_ok=True)
 
     with ZipFile(component_zip, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+        zipdir(z, root_dir/"licenses", "licenses")
         z.write(*path_basename_tuple(root_dir/"LICENSE"))
-        # z.write(*path_basename_tuple(root_dir/"CHANGELOG.md"))
+        z.write(*path_basename_tuple(root_dir/"CHANGELOG.md"))
         
         files_to_pack = [
             'Ijwhost.dll',
