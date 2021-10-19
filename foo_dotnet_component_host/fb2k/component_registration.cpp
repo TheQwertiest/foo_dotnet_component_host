@@ -61,7 +61,7 @@ void RegisterComponent( String ^ filename, ComponentInfo ^ componentInfo )
     g_registeredComponent.emplace_back( std::make_unique<service_factory_single_t<ComponentVersion>>(
         Convert::ToNative::ToValue( filename ),
         Convert::ToNative::ToValue( componentInfo->Name ) + " (.NET)",
-        Convert::ToNative::ToValue( componentInfo->Version->ToString() ),
+        Convert::ToNative::ToValue( componentInfo->Version ),
         Convert::ToNative::ToValue( componentInfo->Description ) ) );
 }
 

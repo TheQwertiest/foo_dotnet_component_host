@@ -5,7 +5,7 @@ namespace Qwr.ComponentInterface
     public struct ComponentInfo
     {
         public string Name;
-        public Version Version;
+        public string Version;
         public string Description;
     }
 
