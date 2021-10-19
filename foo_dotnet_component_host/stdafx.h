@@ -27,6 +27,9 @@
 /// wchar_t support
 #include <fmt/xchar.h>
 
+// json
+#include <nlohmann/json.hpp>
+
 #include <vector>
 #include <memory>
 #include <unordered_map>

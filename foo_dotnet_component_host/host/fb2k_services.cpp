@@ -2,12 +2,12 @@
 
 #include "fb2k_services.h"
 
+#include <acfu/acfu_registration.h>
+#include <fb2k/preferences_pages.h>
 #include <host/host.h>
 #include <net_objects/fb_config_var.h>
-#include <net_objects/fb_play_callback.h>
 #include <net_objects/fb_main_menu.h>
-#include <fb2k/preferences_pages.h>
-
+#include <net_objects/fb_play_callback.h>
 
 namespace Qwr::DotnetHost
 {
@@ -18,11 +18,11 @@ void Fb2kStaticServices::RegisterPreferencesPage( PreferencesPageInfo preference
     {
         throw gcnew Exception( "Static services can't be initialized after the component start" );
     }
-    RegisterPreferencesPageImpl( preferencesPageInfo, preferencePageType );
+    Qwr::DotnetHost::RegisterPreferencesPage( preferencesPageInfo, preferencePageType );
 }
 
 generic<typename T> IConfigVar<T> ^ Fb2kStaticServices::RegisterConfigVar( Guid cfgGuid, T defaultValue )
-{    
+{
     if ( Host::GetInstance()->IsInitialized() )
     {
         throw gcnew Exception( "Static services can't be initialized after the component start" );
@@ -35,9 +35,23 @@ IMainMenuGroup ^ Fb2kStaticServices::GetMainMenuGroup( Guid mainMenuGroupGuid )
     return gcnew NetFbMainMenuGroup( mainMenuGroupGuid );
 }
 
+void Fb2kStaticServices::RegisterAcfu( Guid guid, String ^ componentRepo, String ^ repoOwner )
+{
+    if ( Host::GetInstance()->IsInitialized() )
+    {
+        throw gcnew Exception( "Static services can't be initialized after the component start" );
+    }
+
+    auto currentComponent = Host::GetInstance()->GetCurrentComponent();
+    assert( currentComponent );
+
+    Qwr::DotnetHost::RegisterAcfu( guid, currentComponent->info->Name, currentComponent->underscoredName, componentRepo, repoOwner );
+}
+
 IPlaybackCallbacks ^ Fb2kDynamicServices::RegisterForPlaybackCallbacks()
 {
-    if (!pPlaybackCallbacks_) {
+    if ( !pPlaybackCallbacks_ )
+    {
         pPlaybackCallbacks_ = gcnew NetFbPlayCallback();
     }
 

@@ -2,8 +2,10 @@
 
 #include "host.h"
 
+#include <acfu/acfu_registration.h>
 #include <convert/to_net.h>
 #include <fb2k/component_registration.h>
+#include <fb2k/preferences_pages.h>
 #include <host/delayed_installation.h>
 #include <host/fb2k_controls.h>
 #include <host/fb2k_services.h>
@@ -47,9 +49,10 @@ void Host::Initialize( String ^ modulePath )
         fb2kStaticServices_ = gcnew Fb2kStaticServices();
         fb2kDynamicServices_ = gcnew Fb2kDynamicServices();
         fb2kUtils_ = gcnew Fb2kUtils();
-
         components_ = gcnew List<Component ^>;
-        fb2kStaticServices_->RegisterPreferencesPage( Preferences::GetInfo(), Preferences::typeid );
+
+        Qwr::DotnetHost::RegisterPreferencesPage( Preferences::GetInfo(), Preferences::typeid );
+        Qwr::DotnetHost::RegisterAcfu( Convert::ToNet::ToValue( Guids::acfu ), DNET_NAME, DNET_UNDERSCORE_NAME, DNET_UNDERSCORE_NAME, "TheQwertiest" );
 
         ProcessDelayedComponents();
 
@@ -67,6 +70,7 @@ void Host::Initialize( String ^ modulePath )
                 component->info = component->instance->GetInfo();
                 RegisterComponent( Path::GetFileNameWithoutExtension( component->underscoredName ), component->info );
 
+                currentComponent_ = component;
                 component->instance->Initialize( fb2kStaticServices_, fb2kUtils_ );
 
                 components_->Add( component );
@@ -79,6 +83,7 @@ void Host::Initialize( String ^ modulePath )
                 DelayedLog( msg );
             }
 
+            currentComponent_ = nullptr;
             DelayedLog( gcnew String( "Loaded `" + component->underscoredName + "`" ), true, false );
         }
 
@@ -140,6 +145,11 @@ bool Host::IsInitialized()
 List<Component ^> ^ Host::GetComponents()
 {
     return components_;
+}
+
+Component ^ Host::GetCurrentComponent()
+{
+    return currentComponent_;
 }
 
 } // namespace Qwr::DotnetHost

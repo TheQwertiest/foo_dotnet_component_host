@@ -31,11 +31,16 @@ public:
 
     List<Component ^> ^ GetComponents();
 
+    // TODO: remove the need for this
+    Component ^ GetCurrentComponent();
+
 private:
     static Host ^ self_;
 
     bool isInitialized_ = false;
     bool hasFailed_ = false;
+
+    Component ^ currentComponent_ = nullptr;
 
     List<Component ^> ^ components_ = nullptr;
     Fb2kControls ^ fb2kControls_ = nullptr;

@@ -6,6 +6,6 @@ using namespace Qwr::ComponentInterface;
 namespace Qwr::DotnetHost
 {
 
-void RegisterPreferencesPageImpl( PreferencesPageInfo ^ preferencesPageInfo, Type ^ preferencePageType );
+void RegisterPreferencesPage( PreferencesPageInfo ^ preferencesPageInfo, Type ^ preferencePageType );
 
 };

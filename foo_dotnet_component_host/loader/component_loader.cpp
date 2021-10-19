@@ -74,22 +74,29 @@ IComponent ^ ComponentLoader::CreateInstance( Type ^ type )
     auto ctorAttributes = ctorInfo->GetCustomAttributes( false );
     auto interfaceAttributeType = ComponentInterfaceVersionAttribute::typeid;
     auto currentVersion = Assembly::GetAssembly( interfaceAttributeType )->GetName()->Version;
+
+    ComponentInterfaceVersionAttribute ^ componentInterfaceAttribute = nullptr;
     for each ( auto attr in ctorAttributes )
     {
         if ( attr->GetType() == interfaceAttributeType )
         {
-            auto interfaceAttribute = dynamic_cast<ComponentInterfaceVersionAttribute ^>( attr );
-            auto supportedVersion = interfaceAttribute->Version;
-            if ( currentVersion->Major != supportedVersion->Major
-                 || currentVersion->Minor < supportedVersion->Minor )
-            {
-                throw gcnew Exception( "Interface version mismatch:\n"
-                                       + "  Interface version requested by component: " + supportedVersion->ToString() + "\n"
-                                       + "  Host interface version: " + currentVersion->ToString() + "\n"
-                                       + "Update " DNET_UNDERSCORE_NAME " to use this .NET component" );
-            }
+            componentInterfaceAttribute = dynamic_cast<ComponentInterfaceVersionAttribute ^>( attr );
             break;
         }
+    }
+    if ( !componentInterfaceAttribute )
+    {
+        throw gcnew Exception( "Component constructor is missing `ComponentInterfaceVersion` attribute" );
+    }
+
+    auto supportedVersion = componentInterfaceAttribute->Version;
+    if ( currentVersion->Major != supportedVersion->Major
+         || currentVersion->Minor < supportedVersion->Minor )
+    {
+        throw gcnew Exception( "Interface version mismatch:\n"
+                               + "  Interface version requested by component: " + supportedVersion->ToString() + "\n"
+                               + "  Host interface version: " + currentVersion->ToString() + "\n"
+                               + "Update " DNET_UNDERSCORE_NAME " to use this .NET component" );
     }
 
     return dynamic_cast<IComponent ^>( ctorInfo->Invoke( nullptr ) );

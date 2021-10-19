@@ -15,6 +15,8 @@ public:
     generic<typename T> virtual IConfigVar<T> ^ RegisterConfigVar( Guid cfgGuid, T defaultValue );
 
     virtual IMainMenuGroup ^ GetMainMenuGroup( Guid mainMenuGroupGuid );
+
+    virtual void RegisterAcfu( Guid guid, String ^ componentRepo, String ^ repoOwner );
 };
 
 private

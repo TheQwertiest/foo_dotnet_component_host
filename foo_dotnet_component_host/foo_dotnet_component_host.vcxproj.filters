@@ -88,6 +88,12 @@
       <Filter>host</Filter>
     </ClCompile>
     <ClCompile Include="component_paths.cpp" />
+    <ClCompile Include="acfu\semantic_version.cpp">
+      <Filter>acfu</Filter>
+    </ClCompile>
+    <ClCompile Include="acfu\acfu_registration.cpp">
+      <Filter>acfu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="component_defines.h" />
@@ -184,6 +190,15 @@
       <Filter>host</Filter>
     </ClInclude>
     <ClInclude Include="component_paths.h" />
+    <ClInclude Include="acfu\semantic_version.h">
+      <Filter>acfu</Filter>
+    </ClInclude>
+    <ClInclude Include="acfu\acfu_github.h">
+      <Filter>acfu</Filter>
+    </ClInclude>
+    <ClInclude Include="acfu\acfu_registration.h">
+      <Filter>acfu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />
@@ -219,6 +234,9 @@
     </Filter>
     <Filter Include="ui">
       <UniqueIdentifier>{7257ad23-dd0e-424e-a27d-2ff7c496c7c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="acfu">
+      <UniqueIdentifier>{1433bf94-0a99-4326-aec4-be573826f85f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

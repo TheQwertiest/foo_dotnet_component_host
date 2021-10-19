@@ -175,7 +175,7 @@ std::vector<std::unique_ptr<service_factory_single_t<PreferencesPage>>> g_regist
 namespace Qwr::DotnetHost
 {
 
-void RegisterPreferencesPageImpl( PreferencesPageInfo ^ preferencesPageInfo, Type ^ preferencePageType )
+void RegisterPreferencesPage( PreferencesPageInfo ^ preferencesPageInfo, Type ^ preferencePageType )
 {
     if ( !preferencePageType->IsAssignableTo( IPreferencesPage::typeid ) )
     {

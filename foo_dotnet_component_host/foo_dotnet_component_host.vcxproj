@@ -55,7 +55,7 @@
     <Import Project="$(SubmodulesDirectory)fb2k_utils\props\env\BuildEnvCpp.props" />
     <Import Project="$(SubmodulesDirectory)fb2k_utils\props\submodules\foobar2000_sdk.props" />
     <Import Project="$(SubmodulesDirectory)fb2k_utils\props\submodules\pfc.props" />
-    <Import Project="$(SubmodulesDirectory)fb2k_utils\props\submodules\range.props" />
+    <Import Project="$(SubmodulesDirectory)fb2k_utils\props\submodules\json.props" />
     <Import Project="$(SubmodulesDirectory)fb2k_utils\props\submodules\fmt.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -101,6 +101,9 @@
     <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="acfu\acfu_github.h" />
+    <ClInclude Include="acfu\acfu_registration.h" />
+    <ClInclude Include="acfu\semantic_version.h" />
     <ClInclude Include="component_defines.h" />
     <ClInclude Include="component_guids.h" />
     <ClInclude Include="component_paths.h" />
@@ -139,6 +142,8 @@
     <ClInclude Include="utils\menu_helpers.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="acfu\acfu_registration.cpp" />
+    <ClCompile Include="acfu\semantic_version.cpp" />
     <ClCompile Include="component_paths.cpp" />
     <ClCompile Include="convert\to_net.cpp" />
     <ClCompile Include="convert\to_native.cpp" />
