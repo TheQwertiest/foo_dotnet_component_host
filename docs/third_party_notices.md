@@ -9,13 +9,13 @@ nav_exclude: true
 
 ---
 
-Spotify Integration uses third-party libraries or other resources that may
+.NET Component Host uses third-party libraries or other resources that may
 be distributed under licenses different than the Spider Monkey Panel software.
 
 The linked notices are provided for information only.
 
-- [fmt - other](../assets/generated_files/licenses/fmt.txt)
-- [foobar2000 SDK - other](../assets/generated_files/licenses/foobar2000_SDK.txt)
-- [JSON for Modern C++ - MIT](../assets/generated_files/licenses/JSON_for_Modern_CPP.txt)
-- [PFC - zlib](../assets/generated_files/licenses/PFC.txt)
-- [range-v3 - BSL-1.0](../assets/generated_files/licenses/range-v3.txt)
+- [foobar2000 SDK - other]({{site.baseurl}}assets/generated_files/licenses/foobar2000 SDK.txt)
+- [fmt - other]({{site.baseurl}}assets/generated_files/licenses/fmt.txt)
+- [JSON for Modern C++ - MIT]({{site.baseurl}}assets/generated_files/licenses/JSON for Modern C++.txt)
+- [range-v3 - BSL-1.0]({{site.baseurl}}assets/generated_files/licenses/range-v3.txt)
+- [PFC - zlib]({{site.baseurl}}assets/generated_files/licenses/PFC.txt)

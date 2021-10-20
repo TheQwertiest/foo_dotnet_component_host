@@ -1,0 +1,5 @@
+foobar2000 SDK: other
+fmt: other
+JSON for Modern C++: MIT
+range-v3: BSL-1.0
+PFC: zlib

@@ -61,4 +61,4 @@ def generate(root_dir, component_name):
 
     print(f'Generated file: {output_file}')
 
-generate(None, 'Spider Monkey Panel')
+generate(None, '.NET Component Host')
