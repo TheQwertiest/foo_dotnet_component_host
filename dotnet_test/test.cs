@@ -16,6 +16,12 @@ namespace fooTest
 
         string initLog;
 
+        [ComponentInterfaceVersion("0.1.1")]
+        Test()
+        {
+
+        }
+
         public void Initialize(IStaticServicesManager servicesManager, IUtils utils)
         {
             _myCfg = servicesManager.RegisterConfigVar(
@@ -52,7 +58,7 @@ namespace fooTest
         {
             ComponentInfo info;
             info.Name = "Test plugin";
-            info.Version = new Version("1.0.0");
+            info.Version = "1.0.0";
             info.Description = "Just a test plugin, really";
             return info;
         }
