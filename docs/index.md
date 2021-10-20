@@ -22,6 +22,7 @@ This is a component for the [foobar2000](https://www.foobar2000.org) audio playe
 Features:
 - Provides a pure C# interface to communicate with foobar2000.
 - Said C# interface is exposed via a NuGet package.
+- [foo_acfu](https://acfu.3dyd.com) integration.
 
 ## Getting started!
 
@@ -30,9 +31,9 @@ Features:
 
 ## Links
 
-[Support thread](https://hydrogenaud.io/index.php?topic=119972.new.html)  
+[Support thread](https://hydrogenaud.io/index.php?topic=121672)  
 [Changelog][changelog]  
-[Nightly build](https://ci.appveyor.com/api/projects/theqwertiest/foo-dotnet-component-host/artifacts/_result%2FWin32_Release%2Ffoo_dotnet_component_host.fb2k-component?branch=master&job=Configuration%3A%20Release)
+[Dev build](https://ci.appveyor.com/api/projects/theqwertiest/foo-dotnet-component-host/artifacts/_result%2FWin32_Release%2Ffoo_dotnet_component_host.fb2k-component?branch=master&job=Configuration%3A%20Release)
 
 ## Credits
 
