@@ -9,12 +9,6 @@ permalink: /
 {: .no_toc }
 [![version][version_badge]][changelog] [![Build status][appveyor_badge]](https://ci.appveyor.com/project/TheQwertiest/foo-dotnet-component-host/branch/master) [![CodeFactor][codefactor_badge]](https://www.codefactor.io/repository/github/theqwertiest/foo_dotnet_component_host/overview/master) [![Codacy Badge][codacy_badge]](https://www.codacy.com/gh/TheQwertiest/foo_dotnet_component_host/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TheQwertiest/foo_dotnet_component_host&amp;utm_campaign=Badge_Grade) 
 
-## Table of contents
-{: .no_toc .text-delta }
-
-* TOC
-{:toc}
-
 ---
 
 This is a component for the [foobar2000](https://www.foobar2000.org) audio player that acts as a host for components written in C#.
