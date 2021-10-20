@@ -22,9 +22,7 @@ def update(gh_pages_dir: PathLike):
         ghp_gen_dir.mkdir(parents=True)
 
     shutil.copytree(root_dir/"licenses", ghp_gen_dir/"licenses", dirs_exist_ok=True)
-    
-    ghp_inc_dir = gh_pages_dir/"_includes"
-    ghp_inc_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(root_dir/".license_index.txt", ghp_gen_dir/"licenses")   
 
     shutil.copy2(root_dir/"CHANGELOG.md", gh_pages_dir/"_includes"/"CHANGELOG.md")
 

@@ -1,4 +1,4 @@
-Spider Monkey Panel uses third-party libraries or other resources that may
+.NET Component Host uses third-party libraries or other resources that may
 be distributed under licenses different than the Spider Monkey Panel software.
 The linked notices are provided for information only.
 
