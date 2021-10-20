@@ -10,9 +10,7 @@ ___
 
 ## [1.0.0][] - 2021-10-20
 
-### Added
-
 Initial release.
 
-[unreleased]: https://github.com/TheQwertiest/foo_spotify/compare/v1.0.0...HEAD
+[unreleased]: https://github.com/TheQwertiest/foo_dotnet_component_host/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/TheQwertiest/foo_dotnet_component_host/commits/master
