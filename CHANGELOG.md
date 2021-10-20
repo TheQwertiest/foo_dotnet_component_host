@@ -11,4 +11,4 @@ ___
 
 Initial release.
 
-[unreleased]: https://github.com/TheQwertiest/foo_spotify/commits/master
+[unreleased]: https://github.com/TheQwertiest/foo_dotnet_component_host/commits/master
