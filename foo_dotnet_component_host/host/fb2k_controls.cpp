@@ -2,10 +2,10 @@
 
 #include "fb2k_controls.h"
 
+#include <convert/to_native.h>
 #include <net_objects/fb_console.h>
 #include <net_objects/fb_play_control.h>
 #include <net_objects/fb_title_format.h>
-#include <convert/to_native.h>
 #include <utils/menu_helpers.h>
 
 namespace Qwr::DotnetHost
@@ -24,12 +24,18 @@ IConsole ^ Fb2kControls::Console()
 
 void Fb2kControls::ExecuteContextMenuCommand( String ^ command, List<IMetadbHandle ^> ^ metadbHandles )
 {
-    Qwr::DotnetHost::ExecuteContextMenuCommand( Convert::ToNative::ToValue( command ), Convert::ToNative::ToValue( metadbHandles ), contextmenu_manager::flag_view_full );
+    metadb_handle_list handleList;
+    if ( metadbHandles )
+    {
+        handleList = Convert::ToNative::ToValue( metadbHandles );
+    }
+
+    Qwr::DotnetHost::ExecuteContextMenuCommand( Convert::ToNative::ToValue( command ), handleList, contextmenu_manager::flag_view_full );
 }
 
 void Fb2kControls::ExecuteMainMenuCommand( String ^ command )
 {
-    Qwr::DotnetHost::ExecuteMainMenuCommand( Convert::ToNative::ToValue(command) );
+    Qwr::DotnetHost::ExecuteMainMenuCommand( Convert::ToNative::ToValue( command ) );
 }
 
 IPlaybackControls ^ Fb2kControls::PlaybackControls()
