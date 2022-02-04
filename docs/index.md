@@ -25,7 +25,7 @@ Features:
 
 [Support thread](https://hydrogenaud.io/index.php?topic=121672)  
 [Changelog][changelog]  
-[Dev build](https://ci.appveyor.com/api/projects/theqwertiest/foo-dotnet-component-host/artifacts/_result%2FWin32_Release%2Ffoo_dotnet_component_host.fb2k-component?branch=master&job=Configuration%3A%20Release)
+[Dev build](https://ci.appveyor.com/api/projects/theqwertiest/foo-dotnet-component-host/artifacts/_result%2FWin32_Release%2Ffoo_dotnet_component_host.fb2k-component?branch=master&pr=false&job=Configuration%3A%20Release)
 
 ## Credits
 
