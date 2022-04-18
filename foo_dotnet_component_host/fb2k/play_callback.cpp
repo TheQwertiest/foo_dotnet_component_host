@@ -51,7 +51,7 @@ void PlayCallbackImpl::on_playback_starting( play_control::t_track_command p_com
 
 void PlayCallbackImpl::on_playback_seek( double p_time )
 {
-    parent_->OnTrackPlaybackPositionChanged( p_time );
+    parent_->OnTrackSeekPerformed( p_time );
 }
 
 void PlayCallbackImpl::on_playback_edited( metadb_handle_ptr p_track )
